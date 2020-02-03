@@ -8,6 +8,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "cors": "^2.8.5",
     "expo": "~36.0.0",
     "express": "^4.17.1",
     "react": "~16.9.0",
