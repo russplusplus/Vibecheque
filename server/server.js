@@ -6,6 +6,7 @@ const port = process.env.PORT || 5000;
 
 // Route includes
 const picsRouter = require('./routes/pics.router');
+const loginRouter = require('./routes/login.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 app.use(bodyParser.json()); // needed for angular requests
@@ -14,7 +15,7 @@ app.use(express.static('build'));
 
 /** ---------- ROUTES ---------- **/
 app.use('/pics', picsRouter);
-
+app.use('/login', loginRouter);
 /** ---------- START SERVER ---------- **/
 app.listen(port, function () {
     console.log('Listening on port: ', port);
