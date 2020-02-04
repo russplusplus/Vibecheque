@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     console.log('in GET route')
-    res.send('Server works!')
+    res.send({responseKey: 'Server works!'})
 })
 
 module.exports = router;

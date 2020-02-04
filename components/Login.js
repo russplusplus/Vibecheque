@@ -5,12 +5,20 @@ import axios from 'axios';
 const Login = props => {
 
     loadThings = () => {
-        axios.get('https://www.facebook.com')
+        fetch('http://192.168.1.52:5000/pics', {method: 'GET'})
             .then((response) => {
-                console.log('response:', response)
-            }).catch((error) => {
-                console.log('Error in GET request', error)
+                return response.json()
             })
+            .then((myJson) => {
+                console.log(myJson)
+            });
+
+        // axios.get('http://10.100.100.137:5000/pics')
+        //     .then((response) => {
+        //         console.log('response:', response)
+        //     }).catch((error) => {
+        //         console.log('Error in GET request', error)
+        //     })
     }
 
     return (
