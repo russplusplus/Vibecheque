@@ -25,10 +25,14 @@ const Login = props => {
         console.log('in login function');
         fetch('http://192.168.5.38:5000/login', {
             method: 'POST',
-            body: {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 "username": "clarkKent",
                 "password": "superman"
-            }
+            })
         })
             .then((response) => {
                 return response.json()
