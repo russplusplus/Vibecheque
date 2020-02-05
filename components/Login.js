@@ -23,7 +23,13 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        fetch('http://192.168.5.38:5000/pics', {method: 'GET'})
+        fetch('http://192.168.5.38:5000/login', {
+            method: 'POST',
+            body: {
+                "username": "clarkKent",
+                "password": "superman"
+            }
+        })
             .then((response) => {
                 return response.json()
             })

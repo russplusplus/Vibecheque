@@ -10,6 +10,7 @@ const loginRouter = require('./routes/login.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 app.use(bodyParser.json()); // needed for angular requests
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('build'));
 // app.use(cors({origin: true, credentials: true}));
 
