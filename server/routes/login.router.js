@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 router.post('/', (req, res) => {
-    console.log('req.body:', req.body);
+    console.log('req.body:', req);
     const user = req.body.username;
     res.status(200).send(`User's name is ${user}`);
 })

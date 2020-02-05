@@ -5,7 +5,7 @@ import axios from 'axios';
 const Login = props => {
 
     loadThings = () => {
-        fetch('http://192.168.1.52:5000/pics', {method: 'GET'})
+        fetch('http://192.168.5.38:5000/pics', {method: 'GET'})
             .then((response) => {
                 return response.json()
             })
@@ -21,10 +21,22 @@ const Login = props => {
         //     })
     }
 
+    login = () => {
+        console.log('in login function');
+        fetch('http://192.168.5.38:5000/pics', {method: 'GET'})
+            .then((response) => {
+                return response.json()
+            })
+            .then((myJson) => {
+                console.log(myJson)
+            });
+    }
+
     return (
         <>
         <Text>Login page</Text>
         <Button title="Load Things" onPress={loadThings}></Button>
+        <Button title="Login" onPress={login}></Button>
         </>
     )
 }
