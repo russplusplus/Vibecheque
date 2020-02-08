@@ -78,7 +78,6 @@ const Login = props => {
         <Text>Username: {usernameInput}</Text>
         <Text>Password: {passwordInput}</Text>
         <Button title="Login" onPress={login}></Button>
-        <Button title="Get token from Async storage" onPress={getToken}></Button>
         <Text></Text>
         </>
     )

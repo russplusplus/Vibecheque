@@ -20,7 +20,6 @@ export default function App() {
         <Route path="/newpicture" component={NewPicture} />
         <Route path="/remove" component={Remove} /> 
       </View>
-      
     </NativeRouter>
   );
 }
