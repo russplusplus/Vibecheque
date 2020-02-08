@@ -13,9 +13,6 @@ export default function App() {
   return (
     <NativeRouter>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Taco!</Text>
-        <Link to="/camera"><Text>Camera Link</Text></Link>
         <Route exact path="/" component={Login} />
         <Route path="/camera" component={Camera} />
         <Route path="/favorite" component={Favorite} />
