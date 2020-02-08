@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
 
+//const IPAddress = require('../modules/IPAddress');
+const IPAddress = '192.168.1.52';
+
 const Login = props => {
 
     const [usernameInput, setUsernameInput] = useState('');
@@ -27,7 +30,7 @@ const Login = props => {
     };
 
     loadThings = () => {
-        fetch('http://192.168.5.19:5000/pics', {method: 'GET'})
+        fetch('http://192.168.1.52:5000/pics', {method: 'GET'})
             .then((response) => {
                 return response.json()
             })
@@ -40,7 +43,7 @@ const Login = props => {
         console.log('in login function');
         // console.log(JSON.stringify({"username": "clarkKent","password": "superman"}))
         // console.log(JSON.stringify({"username": usernameInput, "password": passwordInput}))
-        fetch('http://192.168.5.19:5000/login', {
+        fetch('http://192.168.1.52:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -63,7 +66,7 @@ const Login = props => {
 
     return (
         <>
-        <Text>Login page</Text>
+        <Text>Vibecheque</Text>
         <TextInput
             onChangeText={(text) => setUsernameInput(text)}
             placeholder="username"    
