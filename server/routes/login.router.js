@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const bodyParser = require('body-parser');
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -30,6 +30,7 @@ router.post("/", (req, res) => {
         return u.username === req.body.username && u.password === req.body.password;
     });
     if (!user) {
+        console.log('user not found')
         res.status(401).send("Error. Username/password not found.");
         return;
     }
