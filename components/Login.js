@@ -30,7 +30,7 @@ const Login = props => {
     };
 
     loadThings = () => {
-        fetch('http://192.168.1.52:5000/pics', {method: 'GET'})
+        fetch('http://10.100.100.137:5000/pics', {method: 'GET'})
             .then((response) => {
                 return response.json()
             })
@@ -43,7 +43,7 @@ const Login = props => {
         console.log('in login function');
         // console.log(JSON.stringify({"username": "clarkKent","password": "superman"}))
         // console.log(JSON.stringify({"username": usernameInput, "password": passwordInput}))
-        fetch('http://192.168.1.52:5000/login', {
+        fetch('http://10.100.100.137:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -61,6 +61,8 @@ const Login = props => {
                 console.log('token:', myJson)
                 deviceStorage("access_token", myJson.access_token)
                 props.history.push('/camera');
+            }).catch((error) => {
+                console.log('in catch, error:', error)
             });
     }
 

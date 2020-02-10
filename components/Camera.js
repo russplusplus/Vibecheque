@@ -7,8 +7,8 @@ const Camera = props => {
 
     const [accessToken, setAccessToken] = useState('');
 
-    toLogin = () => {
-        props.history.push('/');
+    viewPhoto = () => {
+        //view top photo in inbox
     }
 
     async function getToken() {
@@ -23,6 +23,7 @@ const Camera = props => {
     }
 
     useEffect(() => {
+        // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
         getToken()
             .then(response => {
                 console.log('in new .then. token:', response)
@@ -33,7 +34,7 @@ const Camera = props => {
         console.log('in useEffect');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
         console.log(accessToken);
-        fetch('http://192.168.1.52:5000/pics', {
+        fetch('http://10.100.100.137:5000/pics', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -54,7 +55,7 @@ const Camera = props => {
     return (
         <>
         <Text>Camera page</Text>
-        <Button title="Back to Login" onPress={toLogin}></Button>
+        <Button title="Inbox" onPress={viewPhoto}></Button>
         </>
     )
 }
