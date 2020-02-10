@@ -7,8 +7,8 @@ const Camera = props => {
 
     const [accessToken, setAccessToken] = useState('');
 
-    viewPhoto = () => {
-        //view top photo in inbox
+    toFavorite = () => {
+        props.history.push('/favorite');
     }
 
     async function getToken() {
@@ -27,35 +27,36 @@ const Camera = props => {
         getToken()
             .then(response => {
                 console.log('in new .then. token:', response)
-                setAccessToken(response);
+                //setAccessToken(response);
+                setAccessToken('nonsense')
             }).catch(error => {
                 console.log('in catch,', error)
             });
         console.log('in useEffect');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
         console.log(accessToken);
-        fetch('http://10.100.100.137:5000/pics', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + accessToken
-            }
-        })
-            .then((response) => {
-              //  console.log('in first .then. response:', response);
-                return response.json()
-            })
-            .then((myJson) => {
+        // fetch('http://10.100.100.137:5000/pics', {
+        //     method: 'GET',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //         Authorization: 'Bearer ' + accessToken
+        //     }
+        // })
+        //     .then((response) => {
+        //       //  console.log('in first .then. response:', response);
+        //         return response.json()
+        //     })
+        //     .then((myJson) => {
 
-                console.log('pics:', myJson)
-            });
+        //         console.log('pics:', myJson)
+        //     });
     });
 
     return (
         <>
         <Text>Camera page</Text>
-        <Button title="Inbox" onPress={viewPhoto}></Button>
+        <Button title="Favorite" onPress={toFavorite}></Button>
         </>
     )
 }

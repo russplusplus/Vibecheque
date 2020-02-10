@@ -8,8 +8,8 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 const users = [
-    {id: 1, username: "clarkKent", password: "superman"},
-    {id: 2, username: "bruceWayne", password: "batman"}
+    {id: 1, username: "clarkKent", password: "superman", favorite_photo_url: "superman_url", is_banned: false},
+    {id: 2, username: "bruceWayne", password: "batman", favorite_photo_url: "batman_url", is_banned: false}
   ];
 
 // router.post('/', (req, res) => {
