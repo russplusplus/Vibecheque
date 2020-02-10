@@ -42,8 +42,8 @@ const Favorite = props => {
         getToken()
             .then(response => {
                 console.log('in new .then. token:', response)
-                //setAccessToken(response);
-                setAccessToken('nonsense');
+                setAccessToken(response);
+                //setAccessToken('nonsense');
             }).catch(error => {
                 console.log('in catch,', error)
             });
