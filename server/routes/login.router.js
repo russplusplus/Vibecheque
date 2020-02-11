@@ -9,7 +9,8 @@ router.use(bodyParser.json());
 
 const users = [
     {id: 1, username: "clarkKent", password: "superman", favorite_photo_url: "superman_url", is_banned: false},
-    {id: 2, username: "bruceWayne", password: "batman", favorite_photo_url: "batman_url", is_banned: false}
+    {id: 2, username: "bruceWayne", password: "batman", favorite_photo_url: "batman_url", is_banned: false},
+    {id: 3, username: "Russ", password: "Plus", favorite_photo_url: "https://www.thespruceeats.com/thmb/64k5P_k2qFJCa0tjuXIrZ4yDlU8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/aqIMG_1498fsq-5b343910c9e77c001a218bd0.jpg", is_banned: false}
   ];
 
 // router.post('/', (req, res) => {

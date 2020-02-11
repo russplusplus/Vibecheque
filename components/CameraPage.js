@@ -88,6 +88,15 @@ export default class CameraPage extends React.Component {
         console.log('in sendImage')
     }
 
+    viewInbox = () => {
+        console.log('in viewInbox');
+    }
+
+    viewFavorite = () => {
+        console.log('in viewFavorite');
+        this.props.history.push('/favorite');
+    }
+
     async componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
@@ -98,9 +107,9 @@ export default class CameraPage extends React.Component {
             }).catch(error => {
                 console.log('in catch,', error)
             });
-        console.log('in useEffect');
+        console.log('in componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
-        console.log(this.accessToken);
+        console.log(this.state.accessToken);
         
     };
 
@@ -146,45 +155,61 @@ export default class CameraPage extends React.Component {
                         </View>
                     </ImageBackground>
                     ) : (
-                    <Camera style={{ flex: 1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
-                            <TouchableOpacity
-                                style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',                  
-                                }}
-                                onPress={() => this.pickImage()}>
-                                <Ionicons
-                                    name="ios-photos"
-                                    style={{ color: "#fff", fontSize: 40}}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                                }}
-                                onPress={() => this.takePicture()}>
-                                <FontAwesome
-                                    name="camera"
-                                    style={{ color: "#fff", fontSize: 40}}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                                }}
-                                onPress={() => this.handleCameraType()}>
-                                <MaterialCommunityIcons
-                                    name="camera-switch"
-                                    style={{ color: "#fff", fontSize: 40}}
-                                />
-                            </TouchableOpacity>
+                    <Camera style={{ flex:1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
+                        <View style={{flex:1,flexDirection:"column",justifyContent:"space-between",margin:20}}>
+                            <View>
+                                <TouchableOpacity
+                                    style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                    }}
+                                    onPress={() => this.handleCameraType()}>
+                                    <Ionicons
+                                        name="ios-reverse-camera"
+                                        style={{ color: "#fff", fontSize: 40}}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
+                                <TouchableOpacity
+                                    style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                    }}
+                                    onPress={() => this.viewInbox()}>
+                                    <Text style={{fontSize:30, color:"white"}}>
+                                        1
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',
+                                    }}
+                                    onPress={() => this.takePicture()}>
+                                    <FontAwesome
+                                        name="camera"
+                                        style={{ color: "#fff", fontSize: 40}}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',
+                                    }}
+                                    onPress={() => this.viewFavorite()}>
+                                    <Ionicons
+                                        name="md-star"
+                                        style={{ color: "#fff", fontSize: 40}}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
+                            
                     </Camera>
                     )}
                 </View>

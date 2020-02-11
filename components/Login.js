@@ -29,21 +29,11 @@ const Login = props => {
         }
     };
 
-    loadThings = () => {
-        fetch('http://10.100.100.137:5000/pics', {method: 'GET'})
-            .then((response) => {
-                return response.json()
-            })
-            .then((myJson) => {
-                console.log(myJson)
-            });
-    }
-
     login = () => {
         console.log('in login function');
         // console.log(JSON.stringify({"username": "clarkKent","password": "superman"}))
         // console.log(JSON.stringify({"username": usernameInput, "password": passwordInput}))
-        fetch('http://10.100.100.137:5000/login', {
+        fetch('http://192.168.1.52:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
