@@ -56,6 +56,21 @@ const Login = props => {
             });
     }
 
+    register = () => {
+        console.log('in register function');
+        fetch('http://192.168.1.52:5000/register', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": usernameInput,
+                "password": passwordInput
+            })
+        })
+    }
+
     return (
         <>
         <Text>Vibecheque</Text>
@@ -70,6 +85,7 @@ const Login = props => {
         <Text>Username: {usernameInput}</Text>
         <Text>Password: {passwordInput}</Text>
         <Button title="Login" onPress={login}></Button>
+        <Button title="Register" onPress={register}></Button>
         <Text></Text>
         </>
     )
