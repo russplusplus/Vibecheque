@@ -9,6 +9,9 @@ import { render } from 'react-dom';
 
 const IPAddress = '192.168.1.52';
 
+const aws = require('aws-sdk/dist/aws-sdk-react-native');
+const config = require('./config.json')
+
 export default class CameraPage extends React.Component {
 
     state = {
@@ -86,6 +89,17 @@ export default class CameraPage extends React.Component {
 
     sendImage = () => {
         console.log('in sendImage')
+        fetch('http://10.100.100.137:5000/photos', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "photo": this.state.photo,
+                "password": passwordInput
+            })
+        })
     }
 
     viewInbox = () => {

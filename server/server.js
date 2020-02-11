@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 const expressjwt = require("express-jwt");  //unsure about doing this in same server file. tutorial does this in separate fie for some reason
 
 // Route includes
-const picsRouter = require('./routes/pics.router');
+const imagesRouter = require('./routes/images.router');
 const loginRouter = require('./routes/login.router');
 const registerRouter = require('./routes/register.router');
 const usersRouter = require('./routes/users.router');
@@ -20,7 +20,7 @@ app.use(express.static('build'));
 // app.use(cors({origin: true, credentials: true}));
 
 /** ---------- ROUTES ---------- **/
-app.use('/pics', picsRouter);
+app.use('/images', imagesRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/users', usersRouter);
