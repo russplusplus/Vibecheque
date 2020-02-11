@@ -29,16 +29,6 @@ const Login = props => {
         }
     };
 
-    loadThings = () => {
-        fetch('http://10.100.100.137:5000/pics', {method: 'GET'})
-            .then((response) => {
-                return response.json()
-            })
-            .then((myJson) => {
-                console.log(myJson)
-            });
-    }
-
     login = () => {
         console.log('in login function');
         // console.log(JSON.stringify({"username": "clarkKent","password": "superman"}))
@@ -66,6 +56,21 @@ const Login = props => {
             });
     }
 
+    register = () => {
+        console.log('in register function');
+        fetch('http://10.100.100.137:5000/register', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": usernameInput,
+                "password": passwordInput
+            })
+        })
+    }
+
     return (
         <>
         <Text>Vibecheque</Text>
@@ -80,6 +85,7 @@ const Login = props => {
         <Text>Username: {usernameInput}</Text>
         <Text>Password: {passwordInput}</Text>
         <Button title="Login" onPress={login}></Button>
+        <Button title="Register" onPress={register}></Button>
         <Text></Text>
         </>
     )

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, AsyncStorage } from 'react-native';
+import { render } from 'react-dom';
 
-const Favorite = props => {
+export default class Favorite extends React.Component {
 
-    const [accessToken, setAccessToken] = useState('');
+    state = {
+        accessToken: ''
+    }
 
-    async function getToken() {
-
+    getToken = async () => {
         try {
             const token = await AsyncStorage.getItem("access_token")
             console.log('getToken token:', token);
@@ -18,12 +20,13 @@ const Favorite = props => {
     }
 
     loadPic = () => {
-        fetch('http://10.100.100.137:5000/users', {
+        console.log('in loadPic')
+        fetch('http://10.100.100.137:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + accessToken
+                Authorization: 'Bearer ' + this.state.accessToken
             }
         })
             .then((response) => {
@@ -31,30 +34,29 @@ const Favorite = props => {
                 return response.json()
             })
             .then((myJson) => {
-
-                console.log('users:', myJson)
+                console.log('favorite:', myJson)
             });
     }
 
-    useEffect(() => {
-        // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
+    async componentDidMount() {
         console.log('in useEffect');
-        getToken()
+        this.getToken()
             .then(response => {
-                console.log('in new .then. token:', response)
-                setAccessToken(response);
+                console.log('in Favorite .then. token:', response)
+                this.setState({accessToken: response});
                 //setAccessToken('nonsense');
             }).catch(error => {
                 console.log('in catch,', error)
             });
-    });
+        this.loadPic();
+    };
 
-    return (
-        <>
-        <Text>Favorite page</Text>
-        <Button title="Load" onPress={loadPic}></Button>
-        </>
-    )
+    render() {
+        return (
+            <>
+            <Text>Favorite page</Text>
+            </>
+        )
+    }
+    
 }
-
-export default Favorite;

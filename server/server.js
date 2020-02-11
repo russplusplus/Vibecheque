@@ -9,7 +9,9 @@ const expressjwt = require("express-jwt");  //unsure about doing this in same se
 // Route includes
 const picsRouter = require('./routes/pics.router');
 const loginRouter = require('./routes/login.router');
+const registerRouter = require('./routes/register.router');
 const usersRouter = require('./routes/users.router');
+const favoriteRouter = require('./routes/favorite.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 app.use(bodyParser.json()); // needed for angular requests
@@ -20,7 +22,9 @@ app.use(express.static('build'));
 /** ---------- ROUTES ---------- **/
 app.use('/pics', picsRouter);
 app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 app.use('/users', usersRouter);
+app.use('/favorite', favoriteRouter);
 /** ---------- START SERVER ---------- **/
 app.listen(port, function () {
     console.log('Listening on port: ', port);
