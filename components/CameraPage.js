@@ -145,10 +145,11 @@ export default class CameraPage extends React.Component {
                 'Content-Type': 'application/json',
             }
         }).then((response) => {
-            console.log('response:', response)
+//console.log('response:', response.json())
             return response.json()
-        // }).then((myJson) => {
-        //     console.log('get url:', myJson)
+        }).then((myJson) => {
+            
+            console.log('get url:', myJson.getURL)
         }).catch((error) => {
             console.log('error in generate-get-url:', error)
         })

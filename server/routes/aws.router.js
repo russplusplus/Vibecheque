@@ -32,7 +32,7 @@ router.get('/generate-get-url', (req, res) => {
     generateGetUrl(Key)
         .then(getURL => {
             console.log(getURL)
-            res.send(getURL);
+            res.send({getURL: getURL});
         })    
         .catch(err => {
             res.send(err);
