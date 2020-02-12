@@ -12,6 +12,7 @@ const loginRouter = require('./routes/login.router');
 const registerRouter = require('./routes/register.router');
 const usersRouter = require('./routes/users.router');
 const favoriteRouter = require('./routes/favorite.router');
+const awsRouter = require('./routes/aws.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 app.use(bodyParser.json()); // needed for angular requests
@@ -25,6 +26,7 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/users', usersRouter);
 app.use('/favorite', favoriteRouter);
+app.use('/aws', awsRouter);
 /** ---------- START SERVER ---------- **/
 app.listen(port, function () {
     console.log('Listening on port: ', port);

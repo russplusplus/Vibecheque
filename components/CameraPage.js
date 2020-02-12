@@ -7,18 +7,13 @@ import * as Permissions from 'expo-permissions';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { render } from 'react-dom';
 
-const IPAddress = '192.168.1.52';
-
-const aws = require('aws-sdk/dist/aws-sdk-react-native');
-const config = require('./config.json')
-
 export default class CameraPage extends React.Component {
 
     state = {
         accessToken: '',
         cameraPermission: null,
         cameraType: Camera.Constants.Type.back,
-        photo: {},
+        image: {},
         review: false
     }
 
@@ -75,9 +70,9 @@ export default class CameraPage extends React.Component {
                 quality: 0.1,
                 base64: true,
                 exif: false
-            }).then(photo => {
+            }).then(image => {
                 console.log('in takePicture .then')
-                this.setState({ photo: photo, review: true })
+                this.setState({ image: image, review: true })
             })
         }
     }
@@ -89,17 +84,75 @@ export default class CameraPage extends React.Component {
 
     sendImage = () => {
         console.log('in sendImage')
-        fetch('http://10.100.100.137:5000/photos', {
-            method: 'POST',
+        //console.log(JSON.stringify(this.state.image))
+       
+        // fetch('http://10.100.100.137:5000/images', {   // request entity too large
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         "photo": this.state.photo
+        //     })
+        // })
+
+            // GET SIGNED URL FROM SERVER
+            // USER SIGNED URL TO UPDOOT TO S3
+
+
+        // const bucketName = 'vibecheque';
+        // const keyName = 'testKey';
+        
+        // aws.config.loadFromPath('../aws_config/config.json');
+        // aws.config.getCredentials(function(err) {
+        //     if (err) console.log(err.stack);
+        //     // credentials not loaded
+        //     else {
+        //       console.log("Access key:", aws.config.credentials.accessKeyId);
+        //       console.log("Secret access key:", aws.config.credentials.secretAccessKey);
+        //     }
+        //   });
+        // // Create a promise on S3 service object
+        // const bucketPromise = new aws.S3({apiVersion: '2006-03-01'}).createBucket({Bucket: bucketName}).promise();
+        // bucketPromise.then(
+        //     function(data) {
+        //         const objectParams = {Bucket: bucketName, Key: keyName, Body: 'Hello Worlds!'};
+        //         const uploadPromise = new aws.S3({apiVersion: '2006-03-01'}).putObject(objectParams).promise();
+        //         uploadPromise.then(
+        //             function(data) {
+        //                 console.log('Successfully upladed data to ' + bucketName + '/' + keyName)
+        //             }
+        //         );
+        //     }
+        // ).catch((err) => {
+        //     console.error(err, err.stack);
+        // });
+
+
+
+        // const s3 = new aws.s3({
+        //     region: 'US EAST',
+        //     credentials: config
+        // })
+
+        const Key = 'newImage';
+        //const ContentType = 'image/jpeg';
+        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+            method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "photo": this.state.photo,
-                "password": passwordInput
-            })
+            }
+        }).then((response) => {
+            console.log('response:', response)
+            return response.json()
+        // }).then((myJson) => {
+        //     console.log('get url:', myJson)
+        }).catch((error) => {
+            console.log('error in generate-get-url:', error)
         })
+        
     }
 
     viewInbox = () => {
@@ -140,7 +193,7 @@ export default class CameraPage extends React.Component {
                     {this.state.review ? (
                     <ImageBackground
                     style={{ flex: 1 }}
-                    source={{ uri: this.state.photo.uri }}>
+                    source={{ uri: this.state.image.uri }}>
                         <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
                             <TouchableOpacity
                                 style={{
