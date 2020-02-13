@@ -24,6 +24,7 @@ router.post("/", jwtCheck, (req, res) => {
                 usersIdArray.push(user.id)
             }
             const recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)]
+            
             console.log('recipientId:', recipientId)
             console.log('usersIdArray:', usersIdArray)
             const insertQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id")
