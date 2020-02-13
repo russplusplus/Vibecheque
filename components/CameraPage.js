@@ -154,10 +154,14 @@ export default class CameraPage extends React.Component {
 //             console.log('error in generate-get-url:', error)
 //        })
 
+        this.getPutUrl();
+        
+    }
 
-        const Key = 'newImage.jpeg';
+    getPutUrl = () => {
+        const Key = 'newImage.jpg';
         const ContentType = 'image/jpeg';  //try image/jpeg once this works
-        fetch(`http://192.168.5.17:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -181,25 +185,26 @@ export default class CameraPage extends React.Component {
             //     Accept: 'application/json',
             //     'Content-Type': 'text/plain'
             // },
-            body: JSON.stringify({
-                "image": this.state.image
-            })
+            // body: JSON.stringify({
+            //     "image": this.state.image.base64
+            // })
+            body: this.state.image
         }).then((response) => {
             console.log('in putImageToS3 first .then')
             return response.text()
         }).then((myJson) => {
             console.log('in putImageToS3 second .then')
             console.log(myJson);
-            this.getGETURL();
+            this.getGetUrl();
         }).catch((error) => {
             console.log('error in putImageToS3:', error);
         })
     }
 
-    getGETURL = () => {
+    getGetUrl = () => {
         console.log('in getGETURL');
-        const Key = 'newImage.jpeg';
-        fetch(`http://192.168.5.17:5000/aws/generate-get-url?Key=${Key}`, {
+        const Key = 'newImage.jpg';
+        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -209,8 +214,22 @@ export default class CameraPage extends React.Component {
             return response.json()
         }).then((myJson) => {
             console.log('get url:', myJson.getURL)  //server returns URL as object with putURL attribute
+            this.sendGetUrlToDatabase(myJson.getURL)
         }).catch((error) => {
             console.log('error in generate-put-url:', error)
+        })
+    }
+
+    sendGetUrlToDatabase = (URL) => {
+        fetch('http://10.100.100.137:5000/pics', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "url": URL
+            })
         })
     }
 

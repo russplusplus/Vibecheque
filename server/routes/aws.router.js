@@ -14,7 +14,6 @@ router.use(cors());
 
 const {
     generateGetUrl,
-    generatePostUrl,
     generatePutUrl
 } = require('../modules/AWSPresigner');
 
