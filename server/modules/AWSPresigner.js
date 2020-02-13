@@ -9,7 +9,10 @@ AWS.config = new AWS.Config({
 });
 
 // Creating a S3 instance
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({
+    signatureVersion: 'v4',
+    region: 'us-east-2'
+});
 
 const Bucket = process.env.BUCKET_NAME;
 

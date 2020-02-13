@@ -45,8 +45,8 @@ router.get('/generate-put-url', (req, res) => {
     const { Key , ContentType } = req.query;
     generatePutUrl(Key, ContentType)
         .then(putURL => {
-            console.log(putURL)
-            res.send({putURL});
+            console.log('putURL:', putURL)
+            res.send({putURL: putURL});
         })
         .catch(err => {
             res.send(err);

@@ -156,8 +156,8 @@ export default class CameraPage extends React.Component {
 
 
         const Key = 'newImage';
-        //const ContentType = 'image/jpeg';
-        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+        const ContentType = 'image/*';  //try image/jpeg once this works
+        fetch(`http://192.168.5.17:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -167,12 +167,33 @@ export default class CameraPage extends React.Component {
 //console.log('response:', response.json())
             return response.json()
         }).then((myJson) => {
-            
-            console.log('get url:', myJson.getURL)
+            console.log('put url:', myJson.putURL)
+            this.putImageToS3(myJson.putURL);
         }).catch((error) => {
-            console.log('error in generate-get-url:', error)
+            console.log('error in generate-put-url:', error)
         })
-        
+    }
+
+    putImageToS3 = (putURL) => {
+        console.log('in putImageToS3, url:', putURL)
+        fetch(putURL, {
+            method: 'PUT',
+            // headers: {
+            //     Accept: 'application/json',
+            //     'Content-Type': 'text/plain'
+            // },
+            body: JSON.stringify({
+                "image": this.state.image
+            })
+        }).then((response) => {
+            console.log('in putImageToS3 first .then')
+            return response.text()
+        }).then((myJson) => {
+            console.log('in putImageToS3 second .then')
+            console.log(myJson);
+        }).catch((error) => {
+            console.log('error in putImageToS3:', error);
+        })
     }
 
     viewInbox = () => {
