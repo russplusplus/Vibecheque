@@ -17,12 +17,6 @@ export default class CameraPage extends React.Component {
         review: false
     }
 
-    // const [accessToken, setAccessToken] = useState('');
-    // const [cameraPermission, setCameraPermission] = useState(null);
-    // const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-    // const [photo, setPhoto] = useState({});
-    // const [review, setReview] = useState(false);
-
     toFavorite = () => {
         this.props.history.push('/favorite');
     }
@@ -84,78 +78,7 @@ export default class CameraPage extends React.Component {
 
     sendImage = () => {
         console.log('in sendImage')
-        //console.log(JSON.stringify(this.state.image))
-       
-        // fetch('http://10.100.100.137:5000/images', {   // request entity too large
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         "photo": this.state.photo
-        //     })
-        // })
-
-            // GET SIGNED URL FROM SERVER
-            // USER SIGNED URL TO UPDOOT TO S3
-
-
-        // const bucketName = 'vibecheque';
-        // const keyName = 'testKey';
-        
-        // aws.config.loadFromPath('../aws_config/config.json');
-        // aws.config.getCredentials(function(err) {
-        //     if (err) console.log(err.stack);
-        //     // credentials not loaded
-        //     else {
-        //       console.log("Access key:", aws.config.credentials.accessKeyId);
-        //       console.log("Secret access key:", aws.config.credentials.secretAccessKey);
-        //     }
-        //   });
-        // // Create a promise on S3 service object
-        // const bucketPromise = new aws.S3({apiVersion: '2006-03-01'}).createBucket({Bucket: bucketName}).promise();
-        // bucketPromise.then(
-        //     function(data) {
-        //         const objectParams = {Bucket: bucketName, Key: keyName, Body: 'Hello Worlds!'};
-        //         const uploadPromise = new aws.S3({apiVersion: '2006-03-01'}).putObject(objectParams).promise();
-        //         uploadPromise.then(
-        //             function(data) {
-        //                 console.log('Successfully upladed data to ' + bucketName + '/' + keyName)
-        //             }
-        //         );
-        //     }
-        // ).catch((err) => {
-        //     console.error(err, err.stack);
-        // });
-
-
-
-        // const s3 = new aws.s3({
-        //     region: 'US EAST',
-        //     credentials: config
-        // })
-
-//         const Key = 'newImage';
-//         //const ContentType = 'image/jpeg';
-//         fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
-//             method: 'GET',
-//             headers: {
-//                 Accept: 'application/json',
-//                 'Content-Type': 'application/json',
-//             }
-//         }).then((response) => {
-// //console.log('response:', response.json())
-//             return response.json()
-//         }).then((myJson) => {
-
-//             console.log('get url:', myJson.getURL)
-//         }).catch((error) => {
-//             console.log('error in generate-get-url:', error)
-//        })
-
         this.getPutUrl();
-        
     }
 
     getPutUrl = () => {
@@ -224,14 +147,12 @@ export default class CameraPage extends React.Component {
         console.log('in sendGetUrlToDatabase')
         fetch('http://10.100.100.137:5000/images', {
             method: 'POST',
+            body: JSON.stringify({url: URL}),
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + this.state.accessToken
-            },
-            body: JSON.stringify({
-                "url": URL
-            })
+            }
         })
     }
 
@@ -244,16 +165,38 @@ export default class CameraPage extends React.Component {
         this.props.history.push('/favorite');
     }
 
+    getInbox = () => {
+        console.log('in getInbox')
+        fetch('http://10.100.100.137:5000/images', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            }
+        }).then((response) => {
+            return response.json()
+        }).then((myJson) => {
+            console.log('inbox images:', myJson)  //server returns URL as object with putURL attribute
+            const inbox = myJson.length
+            console.log('inbox:', inbox)
+        }).catch((error) => {
+            console.log('error in getInbox:', error)
+        });
+    }
+
     async componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
-        this.getToken()
+        await this.getToken()
             .then(response => {
                 console.log('in new .then. token:', response)
                 this.setState({accessToken: response});
             }).catch(error => {
                 console.log('in catch,', error)
             });
+        this.getInbox();
+        
         console.log('in componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
         console.log(this.state.accessToken);

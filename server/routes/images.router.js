@@ -27,19 +27,31 @@ router.post("/", jwtCheck, (req, res) => {
             
             console.log('recipientId:', recipientId)
             console.log('usersIdArray:', usersIdArray)
-            const insertQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id")
-                       VALUES ($1, $2, $3);`;
-            pool.query(insertQueryText, [req.body.url, req.user.sub, recipientId])
-            .then((response2) => {
-            console.log('Query successful!', response2)
-            })
-            .catch((error) => {
-                console.log('Query error:', error)
-            })
+            const insertImageQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id")
+                                          VALUES ($1, $2, $3);`;
+            pool.query(insertImageQueryText, [req.body.url, req.user.sub, recipientId])
+                .then((response2) => {
+                    console.log('Query successful!', response2)
+                })
+                .catch((error) => {
+                    console.log('Query error:', error)
+                })
         })
-    
     res.send({"testurl":"www.com"})
-    
+})
+
+router.get("/", jwtCheck, (req, res) => {
+    console.log(req.user.sub)
+    const getInboxQuery = `SELECT * FROM "images"
+                           WHERE "to_users_id" = $1;`;
+    pool.query(getInboxQuery, [req.user.sub])
+        .then((response) => {
+            console.log('in images get')
+            res.send(response.rows);
+        })
+        .catch((error) => {
+            console.log('error in images get')
+        })
 })
 
 
