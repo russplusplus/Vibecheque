@@ -155,19 +155,18 @@ export default class CameraPage extends React.Component {
 //        })
 
 
-        const Key = 'newImage';
-        const ContentType = 'image/*';  //try image/jpeg once this works
+        const Key = 'newImage.jpeg';
+        const ContentType = 'image/jpeg';  //try image/jpeg once this works
         fetch(`http://192.168.5.17:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json',  //this limits fetch to being able to read JSON response objects
             }
         }).then((response) => {
-//console.log('response:', response.json())
             return response.json()
         }).then((myJson) => {
-            console.log('put url:', myJson.putURL)
+            console.log('put url:', myJson.putURL)  //server returns URL as object with putURL attribute
             this.putImageToS3(myJson.putURL);
         }).catch((error) => {
             console.log('error in generate-put-url:', error)
@@ -191,8 +190,27 @@ export default class CameraPage extends React.Component {
         }).then((myJson) => {
             console.log('in putImageToS3 second .then')
             console.log(myJson);
+            this.getGETURL();
         }).catch((error) => {
             console.log('error in putImageToS3:', error);
+        })
+    }
+
+    getGETURL = () => {
+        console.log('in getGETURL');
+        const Key = 'newImage.jpeg';
+        fetch(`http://192.168.5.17:5000/aws/generate-get-url?Key=${Key}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',  //this limits fetch to being able to read JSON response objects
+            }
+        }).then((response) => {
+            return response.json()
+        }).then((myJson) => {
+            console.log('get url:', myJson.getURL)  //server returns URL as object with putURL attribute
+        }).catch((error) => {
+            console.log('error in generate-put-url:', error)
         })
     }
 
