@@ -221,11 +221,13 @@ export default class CameraPage extends React.Component {
     }
 
     sendGetUrlToDatabase = (URL) => {
-        fetch('http://10.100.100.137:5000/pics', {
+        console.log('in sendGetUrlToDatabase')
+        fetch('http://10.100.100.137:5000/images', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
             },
             body: JSON.stringify({
                 "url": URL
