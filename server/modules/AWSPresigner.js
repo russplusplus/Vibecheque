@@ -30,6 +30,25 @@ function generateGetUrl(Key) {
     });
 }
 
+function generatePostUrl(Key) {
+    console.log('in generatePostUrl')
+    return new Promise((resolve, reject) => {
+        const params = {
+            Bucket,
+            Key,
+            Expires: 120
+        };
+        console.log('in generatePostUrl, past promise')
+        s3.getSignedUrl('postObject', params, (err,url) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(url);
+            }
+        });
+    })
+}
+
 function generatePutUrl(Key, ContentType) {
     return new Promise((resolve, reject) => {
         const params = { Bucket, Key, ContentType };
@@ -43,4 +62,4 @@ function generatePutUrl(Key, ContentType) {
     });
 }
 
-module.exports = { generateGetUrl, generatePutUrl };
+module.exports = { generateGetUrl, generatePostUrl, generatePutUrl };

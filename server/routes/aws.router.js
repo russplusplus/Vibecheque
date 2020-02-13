@@ -14,6 +14,7 @@ router.use(cors());
 
 const {
     generateGetUrl,
+    generatePostUrl,
     generatePutUrl
 } = require('../modules/AWSPresigner');
 
@@ -39,7 +40,7 @@ router.get('/generate-get-url', (req, res) => {
         });
 });
 
-router.get('generate-put-url', (req, res) => {
+router.get('/generate-put-url', (req, res) => {
     console.log('in generate-put-url')
     const { Key , ContentType } = req.query;
     generatePutUrl(Key, ContentType)

@@ -136,6 +136,25 @@ export default class CameraPage extends React.Component {
         //     credentials: config
         // })
 
+//         const Key = 'newImage';
+//         //const ContentType = 'image/jpeg';
+//         fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+//             method: 'GET',
+//             headers: {
+//                 Accept: 'application/json',
+//                 'Content-Type': 'application/json',
+//             }
+//         }).then((response) => {
+// //console.log('response:', response.json())
+//             return response.json()
+//         }).then((myJson) => {
+
+//             console.log('get url:', myJson.getURL)
+//         }).catch((error) => {
+//             console.log('error in generate-get-url:', error)
+//        })
+
+
         const Key = 'newImage';
         //const ContentType = 'image/jpeg';
         fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
