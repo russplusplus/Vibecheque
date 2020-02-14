@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { render } from 'react-dom';
 
+
 export default class CameraPage extends React.Component {
 
     state = {
@@ -14,7 +15,8 @@ export default class CameraPage extends React.Component {
         cameraPermission: null,
         cameraType: Camera.Constants.Type.back,
         image: {},
-        review: false
+        review: false,
+        inbox: 0
     }
 
     toFavorite = () => {
@@ -180,6 +182,7 @@ export default class CameraPage extends React.Component {
             console.log('inbox images:', myJson)  //server returns URL as object with putURL attribute
             const inbox = myJson.length
             console.log('inbox:', inbox)
+            this.setState({inbox: inbox})
         }).catch((error) => {
             console.log('error in getInbox:', error)
         });
@@ -200,7 +203,6 @@ export default class CameraPage extends React.Component {
         console.log('in componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
         console.log(this.state.accessToken);
-        
     };
 
     render() {
