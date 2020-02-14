@@ -7,8 +7,10 @@ import * as Permissions from 'expo-permissions';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { render } from 'react-dom';
 
+import { connect } from 'react-redux';
 
-export default class CameraPage extends React.Component {
+
+class CameraPage extends React.Component {
 
     state = {
         accessToken: '',
@@ -160,6 +162,7 @@ export default class CameraPage extends React.Component {
 
     viewInbox = () => {
         console.log('in viewInbox');
+        this.props.history.push('/viewInbox');
     }
 
     viewFavorite = () => {
@@ -179,10 +182,12 @@ export default class CameraPage extends React.Component {
         }).then((response) => {
             return response.json()
         }).then((myJson) => {
-            console.log('inbox images:', myJson)  //server returns URL as object with putURL attribute
+            console.log('inbox images:', myJson)
             const inbox = myJson.length
             console.log('inbox:', inbox)
-            this.setState({inbox: inbox})
+            //this.setState({inbox: inbox})
+            //dispatch inbox to reduxState
+            this.props.dispatch({type: 'SET_INBOX', payload: myJson})
         }).catch((error) => {
             console.log('error in getInbox:', error)
         });
@@ -199,6 +204,8 @@ export default class CameraPage extends React.Component {
                 console.log('in catch,', error)
             });
         this.getInbox();
+        console.log('retrieving reduxState:', this.props.reduxState.inbox)
+
         
         console.log('in componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
@@ -310,3 +317,9 @@ export default class CameraPage extends React.Component {
     }
     
 }
+
+const mapReduxStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapReduxStateToProps)(CameraPage);
