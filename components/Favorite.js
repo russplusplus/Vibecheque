@@ -38,6 +38,10 @@ export default class Favorite extends React.Component {
             });
     }
 
+    goToCameraPage = () => {
+        this.props.history.push('/camera')
+    }
+
     async componentDidMount() {
         console.log('in useEffect');
         this.getToken()
@@ -54,7 +58,8 @@ export default class Favorite extends React.Component {
     render() {
         return (
             <>
-            <Text>Favorite page</Text>
+                <Text>Favorite page</Text>
+                <Button title="back" onPress={this.goToCameraPage}></Button>
             </>
         )
     }

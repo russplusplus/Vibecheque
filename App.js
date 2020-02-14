@@ -6,21 +6,34 @@ import Login from './components/Login';
 import CameraPage from './components/CameraPage';
 import Favorite from './components/Favorite';
 import Report from './components/Report';
-import NewPicture from './components/NewPicture';
+import ViewInbox from './components/ViewInbox';
 import Remove from './components/Remove';
+
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import inboxReducer from './store/reducers/inbox';
+
+const rootReducer = combineReducers({
+  inbox: inboxReducer
+})
+
+const store = createStore(rootReducer);
 
 export default function App() {
   return (
-    <NativeRouter>
-      <View style={styles.container}>
-        <Route exact path="/" component={Login} />
-        <Route path="/camera" component={CameraPage} />
-        <Route path="/favorite" component={Favorite} />
-        <Route path="/report" component={Report} />
-        <Route path="/newpicture" component={NewPicture} />
-        <Route path="/remove" component={Remove} /> 
-      </View>
-    </NativeRouter>
+    <Provider store={store}>
+      <NativeRouter>
+        <View style={styles.container}>
+          <Route exact path="/" component={Login} />
+          <Route path="/camera" component={CameraPage} />
+          <Route path="/favorite" component={Favorite} />
+          <Route path="/report" component={Report} />
+          <Route path="/viewInbox" component={ViewInbox} />
+          <Route path="/remove" component={Remove} /> 
+        </View>
+      </NativeRouter>
+    </Provider>
+    
   );
 }
 
