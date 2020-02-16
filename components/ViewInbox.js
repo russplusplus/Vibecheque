@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, ImageBackground, TouchableOpacity } from 'react-native';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { connect } from 'react-redux';
 
 class ViewInbox extends React.Component {
 
-    goToCameraPage = () => {
+    returnToCameraPage = () => {
         this.props.history.push('/camera')
+        // delete viewed image from redux and database
     }
 
     componentDidMount() {
@@ -16,8 +18,38 @@ class ViewInbox extends React.Component {
     render() {
         return (
             <>
-                <Text>ViewInbox page</Text>
-                <Button title="back" onPress={this.goToCameraPage}></Button>
+                <View style={{ flex: 1, margin: 0 }}>
+                    <ImageBackground
+                    style={{ flex: 1 }}
+                    source={{ uri: this.props.reduxState.inbox[0].image_url }}>
+                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
+                            <TouchableOpacity
+                                style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                }}
+                                onPress={() => this.returnToCameraPage()}>
+                                <Ionicons
+                                    name="md-return-left"
+                                    style={{ color: "#fff", fontSize: 40}}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                }}
+                                onPress={() => this.deleteFavorite()}>
+                                <Ionicons
+                                    name="ios-trash"
+                                    style={{ color: "#fff", fontSize: 40}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </ImageBackground>
+                </View>
             </>
         )
     }
