@@ -33,21 +33,51 @@ class Favorite extends React.Component {
                 Authorization: 'Bearer ' + this.state.accessToken
             }
         })
-            .then((response) => {
-              //  console.log('in first .then. response:', response);
-                return response.json()
+        .then((response) => {
+          //  console.log('in first .then. response:', response);
+            return response.json()
+        })
+        .then((myJson) => {
+            console.log('favorite:', myJson)
+            this.setState({
+                favoriteUrl: myJson[0].favorite_photo_url
             })
-            .then((myJson) => {
-                console.log('favorite:', myJson)
-                this.setState({
-                    favoriteUrl: myJson[0].favorite_photo_url
-                })
-                console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
-            });
+            console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
+        });
     }
 
     goToCameraPage = () => {
         this.props.history.push('/camera')
+    }
+
+    
+    returnToCameraPage = () => {
+        console.log('in return function');
+        this.props.history.push('/camera');
+    }
+
+    deleteFavorite = () => {
+        console.log('in delete function');
+        fetch('http://192.168.5.67:5000/favorite', {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            }
+        })
+        .then((response) => {
+          //  console.log('in first .then. response:', response);
+            return response.json()
+        })
+        .then((myJson) => {
+            console.log('favorite:', myJson)
+            this.setState({
+                favoriteUrl: myJson[0].favorite_photo_url
+            })
+            console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
+        });
+        
     }
 
     async componentDidMount() {
@@ -62,15 +92,6 @@ class Favorite extends React.Component {
             });
         await this.loadPic();
     };
-
-    return = () => {
-        console.log('in return function');
-        this.props.history.push('/camera');
-    }
-
-    delete = () => {
-        console.log('in delete function');
-    }
 
     render() {
         console.log('in render')
@@ -87,9 +108,9 @@ class Favorite extends React.Component {
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',                  
                                 }}
-                                onPress={() => this.return()}>
+                                onPress={() => this.returnToCameraPage()}>
                                 <Ionicons
-                                    name="md-close"
+                                    name="md-return-left"
                                     style={{ color: "#fff", fontSize: 40}}
                                 />
                             </TouchableOpacity>
@@ -99,9 +120,9 @@ class Favorite extends React.Component {
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',                  
                                 }}
-                                onPress={() => this.sendImage()}>
+                                onPress={() => this.deleteFavorite()}>
                                 <Ionicons
-                                    name="md-send"
+                                    name="ios-trash"
                                     style={{ color: "#fff", fontSize: 40}}
                                 />
                             </TouchableOpacity>
