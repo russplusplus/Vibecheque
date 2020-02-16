@@ -50,7 +50,6 @@ class Favorite extends React.Component {
         this.props.history.push('/camera')
     }
 
-    
     returnToCameraPage = () => {
         console.log('in return function');
         this.props.history.push('/camera');
@@ -66,17 +65,16 @@ class Favorite extends React.Component {
                 Authorization: 'Bearer ' + this.state.accessToken
             }
         })
-        .then((response) => {
-          //  console.log('in first .then. response:', response);
-            return response.json()
-        })
-        .then((myJson) => {
-            console.log('favorite:', myJson)
-            this.setState({
-                favoriteUrl: myJson[0].favorite_photo_url
-            })
-            console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
-        });
+        console.log('after fetch')
+        this.loadPic();
+                
+        // .then((myJson) => {
+        //     console.log('favorite:', myJson)
+        //     this.setState({
+        //         favoriteUrl: myJson[0].favorite_photo_url
+        //     })
+        //     console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
+        // });
         
     }
 
