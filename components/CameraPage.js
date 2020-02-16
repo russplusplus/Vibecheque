@@ -88,7 +88,7 @@ class CameraPage extends React.Component {
         let d = new Date();
         let fileName = String(d.getTime());
         console.log('Time name:', fileName);
-        await this.setS3Key(fileName)
+        await this.setS3Key(fileName) //await ensures that the state will be set before the following line is run
         console.log('State key:', this.state.S3Key); 
         this.getPutUrl();
     }
@@ -100,7 +100,7 @@ class CameraPage extends React.Component {
 
     getPutUrl = () => {
         const Key = this.state.S3Key;
-        const ContentType = 'image/jpeg';  //try image/jpeg once this works
+        const ContentType = 'image/jpeg'; 
         fetch(`http://192.168.5.67:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {

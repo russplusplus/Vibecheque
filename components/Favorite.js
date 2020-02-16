@@ -9,7 +9,7 @@ class Favorite extends React.Component {
 
     state = {
         accessToken: '',
-        favoriteUrl: ''
+        favoriteUrl: 'https://miro.medium.com/max/1080/0*DqHGYPBA-ANwsma2.gif'
     }
 
     getToken = async () => {
@@ -42,7 +42,7 @@ class Favorite extends React.Component {
                 this.setState({
                     favoriteUrl: myJson[0].favorite_photo_url
                 })
-                console.log(this.state.favoriteUrl)
+                console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
             });
     }
 
@@ -60,16 +60,26 @@ class Favorite extends React.Component {
             }).catch(error => {
                 console.log('in catch,', error)
             });
-        this.loadPic();
+        await this.loadPic();
     };
 
+    return = () => {
+        console.log('in return function');
+        this.props.history.push('/camera');
+    }
+
+    delete = () => {
+        console.log('in delete function');
+    }
+
     render() {
+        console.log('in render')
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
                     <ImageBackground
                     style={{ flex: 1 }}
-                    source={{ url: this.state.favoriteUrl }}>
+                    source={{ uri: this.state.favoriteUrl }}>
                         <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
                             <TouchableOpacity
                                 style={{
@@ -77,7 +87,7 @@ class Favorite extends React.Component {
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',                  
                                 }}
-                                onPress={() => this.cancel()}>
+                                onPress={() => this.return()}>
                                 <Ionicons
                                     name="md-close"
                                     style={{ color: "#fff", fontSize: 40}}
