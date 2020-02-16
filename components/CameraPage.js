@@ -18,7 +18,7 @@ class CameraPage extends React.Component {
         cameraType: Camera.Constants.Type.back,
         image: {},
         review: false,
-        inbox: 0,
+        newImages: 0,
         S3Key: ''
     }
 
@@ -196,8 +196,8 @@ class CameraPage extends React.Component {
             return response.json()
         }).then((myJson) => {
             console.log('inbox images:', myJson)
-            const inbox = myJson.length
-            console.log('inbox:', inbox)
+            this.setState({ newImages: myJson.length })
+            console.log('inbox:', myJson.length)
             //this.setState({inbox: inbox})
             //dispatch inbox to reduxState
             this.props.dispatch({type: 'SET_INBOX', payload: myJson})
@@ -291,7 +291,7 @@ class CameraPage extends React.Component {
                                     }}
                                     onPress={() => this.viewInbox()}>
                                     <Text style={{fontSize:30, color:"white"}}>
-                                        1
+                                        {this.state.newImages}
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
