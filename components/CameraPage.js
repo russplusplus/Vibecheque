@@ -18,7 +18,8 @@ class CameraPage extends React.Component {
         cameraType: Camera.Constants.Type.back,
         image: {},
         review: false,
-        inbox: 0
+        inbox: 0,
+        S3Key: ''
     }
 
     toFavorite = () => {
@@ -80,15 +81,27 @@ class CameraPage extends React.Component {
         this.setState({review: false})
     }
 
-    sendImage = () => {
+    sendImage = async () => {
         console.log('in sendImage')
+        
+        // Get the time in milliseconds to use for the file names in S3
+        let d = new Date();
+        let fileName = String(d.getTime());
+        console.log('Time name:', fileName);
+        await this.setS3Key(fileName)
+        console.log('State key:', this.state.S3Key); 
         this.getPutUrl();
     }
 
+    setS3Key = (name) => {
+        this.setState({ S3Key: name })
+    }
+
+
     getPutUrl = () => {
-        const Key = 'newImage.jpg';
+        const Key = this.state.S3Key;
         const ContentType = 'image/jpeg';  //try image/jpeg once this works
-        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://192.168.5.67:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -129,9 +142,9 @@ class CameraPage extends React.Component {
     }
 
     getGetUrl = () => {
-        console.log('in getGETURL');
-        const Key = 'newImage.jpg';
-        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+        console.log('in getGETURL. S3Key:', this.state.S3Key);
+        const Key = this.state.S3Key;
+        fetch(`http://192.168.5.67:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -149,7 +162,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://192.168.5.67:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL}),
             headers: {
@@ -172,7 +185,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://192.168.5.67:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -205,7 +218,6 @@ class CameraPage extends React.Component {
             });
         this.getInbox();
         console.log('retrieving reduxState:', this.props.reduxState.inbox)
-
         
         console.log('in componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works

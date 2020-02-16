@@ -1,21 +1,23 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const bodyParser = require('body-parser');
+const jwtCheck = require('../modules/jwtCheck');
 
 const router = express.Router();
 
 router.use(bodyParser.json());
 
-
-
-// router.post('/', (req, res) => {
-//     console.log('req.body:', req);
-//     const user = req.body.username;
-//     res.status(200).send(`User's name is ${user}`);
-// })
-
-router.get("/", (req, res) => {
-    res.send({"testurl":"www.com"})
+router.get("/", jwtCheck, (req, res) => {
+    let queryText = `SELECT "favorite_photo_url" FROM "users"
+                     WHERE "id" = $1;`;
+    pool.query(queryText, [req.user.sub])
+        .then((response) => {
+            console.log(response.rows)
+            res.send(response.rows);
+        })
+        .catch((error) => {
+            console.log('error in favorite query:', error);
+        })
     
 })
 

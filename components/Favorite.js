@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, ImageBackground, TouchableOpacity } from 'react-native';
 import { render } from 'react-dom';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default class Favorite extends React.Component {
+import { connect } from 'react-redux';
+
+class Favorite extends React.Component {
 
     state = {
-        accessToken: ''
+        accessToken: '',
+        favoriteUrl: ''
     }
 
     getToken = async () => {
@@ -21,7 +25,7 @@ export default class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://10.100.100.137:5000/favorite', {
+        fetch('http://192.168.5.67:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -35,6 +39,10 @@ export default class Favorite extends React.Component {
             })
             .then((myJson) => {
                 console.log('favorite:', myJson)
+                this.setState({
+                    favoriteUrl: myJson[0].favorite_photo_url
+                })
+                console.log(this.state.favoriteUrl)
             });
     }
 
@@ -43,8 +51,8 @@ export default class Favorite extends React.Component {
     }
 
     async componentDidMount() {
-        console.log('in useEffect');
-        this.getToken()
+        console.log('in Favorite componentDidMount');
+        await this.getToken()
             .then(response => {
                 console.log('in Favorite .then. token:', response)
                 this.setState({accessToken: response});
@@ -58,10 +66,45 @@ export default class Favorite extends React.Component {
     render() {
         return (
             <>
-                <Text>Favorite page</Text>
-                <Button title="back" onPress={this.goToCameraPage}></Button>
+                <View style={{ flex: 1, margin: 0 }}>
+                    <ImageBackground
+                    style={{ flex: 1 }}
+                    source={{ url: this.state.favoriteUrl }}>
+                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
+                            <TouchableOpacity
+                                style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                }}
+                                onPress={() => this.cancel()}>
+                                <Ionicons
+                                    name="md-close"
+                                    style={{ color: "#fff", fontSize: 40}}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    alignSelf: 'flex-end',
+                                    alignItems: 'center',
+                                    backgroundColor: 'transparent',                  
+                                }}
+                                onPress={() => this.sendImage()}>
+                                <Ionicons
+                                    name="md-send"
+                                    style={{ color: "#fff", fontSize: 40}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </ImageBackground>
+                </View>
             </>
         )
-    }
-    
+    } 
 }
+
+const mapReduxStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapReduxStateToProps)(Favorite);
