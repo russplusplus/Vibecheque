@@ -101,7 +101,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://192.168.5.67:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -144,7 +144,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://192.168.5.67:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -162,7 +162,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://192.168.5.67:5000/images', {
+        fetch('http://10.100.100.137:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL}),
             headers: {
@@ -170,6 +170,8 @@ class CameraPage extends React.Component {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + this.state.accessToken
             }
+        }).then((response) => {
+            this.setState({ review: false});
         })
     }
 
@@ -185,7 +187,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://192.168.5.67:5000/images', {
+        fetch('http://10.100.100.137:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -219,7 +221,7 @@ class CameraPage extends React.Component {
         this.getInbox();
         console.log('retrieving reduxState:', this.props.reduxState.inbox)
         
-        console.log('in componenetDidMount');
+        console.log('in CameraPage componenetDidMount');
       //  console.log(`getToken():`, getToken())  //put a request to the pics route here to see if JWT verificaioin works
         console.log(this.state.accessToken);
     };
@@ -243,24 +245,32 @@ class CameraPage extends React.Component {
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',                  
+                                    width: '14%',
+                                    backgroundColor: '#CC375E',   
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10               
                                 }}
                                 onPress={() => this.cancel()}>
                                 <Ionicons
                                     name="md-close"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{ color: "black", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',                  
+                                    width: '14%',
+                                    backgroundColor: '#9EE7FF',
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10                  
                                 }}
                                 onPress={() => this.sendImage()}>
                                 <Ionicons
                                     name="md-send"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{ color: "black", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -278,7 +288,7 @@ class CameraPage extends React.Component {
                                     onPress={() => this.handleCameraType()}>
                                     <Ionicons
                                         name="ios-reverse-camera"
-                                        style={{ color: "#fff", fontSize: 40}}
+                                        style={{ color: 'white', fontSize: 45}}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -287,10 +297,14 @@ class CameraPage extends React.Component {
                                     style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',                  
+                                    backgroundColor: '#FFFAAC',
+                                    width: '14%',
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10                   
                                     }}
                                     onPress={() => this.viewInbox()}>
-                                    <Text style={{fontSize:30, color:"white"}}>
+                                    <Text style={{fontSize:30, color:'black'}}>
                                         {this.state.newImages}
                                     </Text>
                                 </TouchableOpacity>
@@ -302,20 +316,24 @@ class CameraPage extends React.Component {
                                     }}
                                     onPress={() => this.takePicture()}>
                                     <FontAwesome
-                                        name="camera"
-                                        style={{ color: "#fff", fontSize: 40}}
+                                        name='circle-thin'
+                                        style={{ color: 'white', fontSize: 67}}
                                     />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',
+                                    backgroundColor: '#9EE7FF',
+                                    width: '14%',
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10 
                                     }}
                                     onPress={() => this.viewFavorite()}>
                                     <Ionicons
                                         name="md-star"
-                                        style={{ color: "#fff", fontSize: 40}}
+                                        style={{ color: 'white', fontSize: 40}}
                                     />
                                 </TouchableOpacity>
                             </View>
