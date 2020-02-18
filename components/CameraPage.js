@@ -213,6 +213,16 @@ class CameraPage extends React.Component {
         });
     }
 
+    logout = async () => {
+        try {
+            await AsyncStorage.removeItem("access_token");
+            console.log('Successfully deleted access_token')
+            this.props.history.push('/');
+        } catch (error) {
+            console.log('AsyncStorage remove error:', error.message);
+        }
+    }
+
     async componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
@@ -283,10 +293,20 @@ class CameraPage extends React.Component {
                     ) : (
                     <Camera style={{ flex:1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
                         <View style={{flex:1,flexDirection:"column",justifyContent:"space-between",margin:20}}>
-                            <View>
+                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
+                                <TouchableOpacity
+                                    onPress={() => this.logout()}>
+                                    <Ionicons
+                                        name="md-return-left"
+                                        style={{ 
+                                            color: "white", 
+                                            fontSize: 40,
+                                        }}
+                                    />
+                                </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{
-                                    alignSelf: 'flex-end',
+                                 //   alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',                  
                                     }}
