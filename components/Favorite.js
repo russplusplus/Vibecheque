@@ -25,7 +25,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://192.168.1.52:5000/favorite', {
+        fetch('http://10.100.100.137:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -59,7 +59,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://192.168.1.52:5000/favorite', {
+        fetch('http://10.100.100.137:5000/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -97,7 +97,8 @@ class Favorite extends React.Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: '#FFFAAC',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     borderWidth: 3,
                                     borderColor: 'black',
                                     borderRadius: 10                    
@@ -107,10 +108,8 @@ class Favorite extends React.Component {
                                     name="md-return-left"
                                     style={{ 
                                         color: "black", 
-                                        fontSize: 40,
-                                          
+                                        fontSize: 40,    
                                     }}
-                                    
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -118,7 +117,8 @@ class Favorite extends React.Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: '#CC375E',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     borderWidth: 3,
                                     borderColor: 'black',
                                     borderRadius: 10                      

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, ImageBackground, TouchableOpacity } from 'react-native';
 
 const Login = props => {
 
@@ -27,9 +27,7 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        // console.log(JSON.stringify({"username": "clarkKent","password": "superman"}))
-        // console.log(JSON.stringify({"username": usernameInput, "password": passwordInput}))
-        fetch('http://192.168.1.52:5000/login', {
+        fetch('http://10.100.100.137:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -54,7 +52,7 @@ const Login = props => {
 
     register = () => {
         console.log('in register function');
-        fetch('http://192.168.1.52:5000/register', {
+        fetch('http://10.100.100.137:5000/register', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -69,20 +67,51 @@ const Login = props => {
 
     return (
         <>
-        <Text>Vibecheque</Text>
-        <TextInput
-            onChangeText={(text) => setUsernameInput(text)}
-            placeholder="username"    
-        />
-        <TextInput
-            onChangeText={(text) => setPasswordInput(text)}
-            placeholder="password"
-        />
-        <Text>Username: {usernameInput}</Text>
-        <Text>Password: {passwordInput}</Text>
-        <Button title="Login" onPress={login}></Button>
-        <Button title="Register" onPress={register}></Button>
-        <Text></Text>
+            <ImageBackground
+                        style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}
+                        source={require('../assets/Vibecheque_6.png')}>
+                
+                <TextInput
+                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 26, borderWidth: 2, borderColor: 'black', padding: 4, width: '50%'}}
+                    onChangeText={(text) => setUsernameInput(text)}
+                    placeholder="username"    
+                />
+                <TextInput
+                    style={{ marginBottom: '2%', fontSize: 26, borderWidth: 2, borderColor: 'black', padding: 4, width: '50%'}}
+                    onChangeText={(text) => setPasswordInput(text)}
+                    placeholder="password"
+                />
+                <TouchableOpacity
+                    onPress={login}
+                    style={{ 
+                        width: '30%', 
+                        borderWidth: 2,
+                        borderColor: 'black',
+                        backgroundColor: 'transparent',
+                        alignItems: 'center',
+                        marginBottom: 4}}>
+                    <Text
+                        style={{
+                            fontSize: 26}}>
+                        Login
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={register}
+                    style={{ 
+                        width: '30%', 
+                        borderWidth: 2,
+                        borderColor: 'black',
+                        backgroundColor: 'transparent',
+                        alignItems: 'center'}}>
+                    <Text
+                        style={{
+                            fontSize: 26}}>
+                        Register
+                    </Text>
+                </TouchableOpacity>
+            </ImageBackground>
+
         </>
     )
 }

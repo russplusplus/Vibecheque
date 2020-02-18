@@ -101,7 +101,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://192.168.1.52:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -144,7 +144,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://192.168.1.52:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -162,7 +162,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://192.168.1.52:5000/images', {
+        fetch('http://10.100.100.137:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL}),
             headers: {
@@ -191,7 +191,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://192.168.1.52:5000/images', {
+        fetch('http://10.100.100.137:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -260,7 +260,8 @@ class CameraPage extends React.Component {
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     backgroundColor: '#CC375E',   
                                     borderWidth: 3,
                                     borderColor: 'black',
@@ -276,7 +277,8 @@ class CameraPage extends React.Component {
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     backgroundColor: '#9EE7FF',
                                     borderWidth: 3,
                                     borderColor: 'black',
@@ -323,7 +325,8 @@ class CameraPage extends React.Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: '#FFFAAC',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     borderWidth: 3,
                                     borderColor: 'black',
                                     borderRadius: 10                   
@@ -350,7 +353,8 @@ class CameraPage extends React.Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: '#9EE7FF',
-                                    width: '14%',
+                                    width: 47,
+                                    height: 47,
                                     borderWidth: 3,
                                     borderColor: 'black',
                                     borderRadius: 10 
