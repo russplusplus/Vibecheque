@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 router.get("/", jwtCheck, (req, res) => {
-    let queryText = `SELECT "favorite_photo_url" FROM "users"
+    let queryText = `SELECT "favorite_image_url" FROM "users"
                      WHERE "id" = $1;`;
     pool.query(queryText, [req.user.sub])
         .then((response) => {
@@ -24,7 +24,7 @@ router.get("/", jwtCheck, (req, res) => {
 router.delete("/", jwtCheck, (req, res) => {
     console.log('in delete route')
     let queryText = `UPDATE "users"
-                     SET "favorite_photo_url" = 'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
+                     SET "favorite_image_url" = 'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
                      WHERE "id" = $1;`;
     pool.query(queryText, [req.user.sub])
         .then((response) => {

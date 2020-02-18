@@ -22,8 +22,10 @@ class ViewInbox extends React.Component {
     }
     
     respond = () => {
-        let id = this.props.reduxState.inbox[0].id;
-        fetch('http://10.100.100.137:5000/images', {
+        let imageId = this.props.reduxState.inbox[0].id;
+        let senderId = this.props.reduxState.inbox[0].from_users_id;
+        // delete viewed image from database
+        fetch('http://192.168.1.52:5000/images', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -31,16 +33,20 @@ class ViewInbox extends React.Component {
                 Authorization: 'Bearer ' + this.state.accessToken
             },
             body: JSON.stringify({
-                "imageId": id
+                "imageId": imageId
             })
-        // delete viewed image from redux and database
         })
         console.log('before redux delete:', this.props.reduxState.inbox)
+        // delete viewed image from redux
         this.props.dispatch({
             type: 'DELETE_IMAGE'
         })
         console.log('after redux delete:', this.props.reduxState.inbox)
 
+        this.props.dispatch({                 //still need to test if this works
+            type: 'SET_RESPONDING',
+            payload: { senderId: senderId }
+        })
         this.props.history.push('/camera')
 
     }
@@ -49,8 +55,23 @@ class ViewInbox extends React.Component {
         console.log('in report')
     }
 
-    favorite = () => {
+    favorite = async () => {
         console.log('in favorite')
+        // send image url to database and replace existing
+        await fetch('http://192.168.1.52:5000/users', {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            },
+            body: JSON.stringify({
+                "image_url": this.props.reduxState.inbox[0].image_url
+            })
+        }).then((response) => {
+            console.log('in favorite .then')
+            this.respond();
+        })
     }
 
     async componentDidMount() {

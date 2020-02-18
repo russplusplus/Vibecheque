@@ -101,7 +101,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://192.168.1.52:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -144,7 +144,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://192.168.1.52:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -162,7 +162,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://192.168.1.52:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL}),
             headers: {
@@ -177,7 +177,11 @@ class CameraPage extends React.Component {
 
     viewInbox = () => {
         console.log('in viewInbox');
-        this.props.history.push('/viewInbox');
+        if (this.state.newImages == 0) {
+            //modal: no new images
+        } else {
+            this.props.history.push('/viewInbox');
+        }
     }
 
     viewFavorite = () => {
@@ -187,7 +191,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://192.168.1.52:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -203,6 +207,7 @@ class CameraPage extends React.Component {
             //this.setState({inbox: inbox})
             //dispatch inbox to reduxState
             this.props.dispatch({type: 'SET_INBOX', payload: myJson})
+            console.log(this.props.reduxState.inbox.length)
         }).catch((error) => {
             console.log('error in getInbox:', error)
         });
