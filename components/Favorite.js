@@ -25,7 +25,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://192.168.5.67:5000/favorite', {
+        fetch('http://192.168.1.52:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -57,7 +57,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://192.168.5.67:5000/favorite', {
+        fetch('http://192.168.1.52:5000/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -104,24 +104,37 @@ class Favorite extends React.Component {
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',                  
+                                    backgroundColor: '#FFFAAC',
+                                    width: '14%',
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10                    
                                 }}
                                 onPress={() => this.returnToCameraPage()}>
                                 <Ionicons
                                     name="md-return-left"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{ 
+                                        color: "black", 
+                                        fontSize: 40,
+                                          
+                                    }}
+                                    
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
-                                    backgroundColor: 'transparent',                  
+                                    backgroundColor: '#CC375E',
+                                    width: '14%',
+                                    borderWidth: 3,
+                                    borderColor: 'black',
+                                    borderRadius: 10                      
                                 }}
                                 onPress={() => this.deleteFavorite()}>
                                 <Ionicons
                                     name="ios-trash"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{ color: "black", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                         </View>

@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-
 router.post("/", jwtCheck, (req, res) => {
     console.log('in images GET route')
     console.log('req.body:', req.body)
@@ -20,7 +19,7 @@ router.post("/", jwtCheck, (req, res) => {
             console.log('user id array:', response.rows)
             const users = response.rows;
             const usersIdArray = [];
-            for (user of users) {
+            for (user of users) {    //ARRAY_AGG might make this part simpler
                 usersIdArray.push(user.id)
             }
             const recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)]
@@ -54,6 +53,18 @@ router.get("/", jwtCheck, (req, res) => {
         })
 })
 
-
+router.delete("/", jwtCheck, (req, res) => {
+    console.log('in DELETE images')
+    console.log('req.body.imageId:', req.body)
+    const deleteViewedImageQuery = `DELETE FROM "images"
+                                    WHERE "id" = ${req.body.imageId};`;
+    pool.query(deleteViewedImageQuery)
+        .then((response) => {
+            console.log('images delete returned')
+        })
+        .catch((error) => {
+            console.log('error in delete image:', error)
+        })
+})
 
 module.exports = router;
