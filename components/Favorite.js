@@ -34,16 +34,18 @@ class Favorite extends React.Component {
             }
         })
         .then((response) => {
-          //  console.log('in first .then. response:', response);
             return response.json()
         })
         .then((myJson) => {
             console.log('favorite:', myJson)
             this.setState({
-                favoriteUrl: myJson[0].favorite_photo_url
+                favoriteUrl: myJson[0].favorite_image_url
             })
             console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
-        });
+        })
+        .catch((error) => {
+            console.log('error in Favorite loadPic:', error)
+        })
     }
 
     goToCameraPage = () => {
@@ -67,15 +69,6 @@ class Favorite extends React.Component {
         })
         console.log('after fetch')
         this.loadPic();
-                
-        // .then((myJson) => {
-        //     console.log('favorite:', myJson)
-        //     this.setState({
-        //         favoriteUrl: myJson[0].favorite_photo_url
-        //     })
-        //     console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
-        // });
-        
     }
 
     async componentDidMount() {
@@ -84,11 +77,10 @@ class Favorite extends React.Component {
             .then(response => {
                 console.log('in Favorite .then. token:', response)
                 this.setState({accessToken: response});
-                //setAccessToken('nonsense');
             }).catch(error => {
                 console.log('in catch,', error)
             });
-        await this.loadPic();
+        this.loadPic()
     };
 
     render() {
