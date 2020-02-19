@@ -21,7 +21,7 @@ class ViewInbox extends React.Component {
         return '(missing token)';
     }
     
-    respond = () => {
+    handlePressAnywhere = () => {
         let imageId = this.props.reduxState.inbox[0].id;
         let senderId = this.props.reduxState.inbox[0].from_users_id;
         // delete viewed image from database
@@ -40,11 +40,16 @@ class ViewInbox extends React.Component {
         // delete viewed image from redux
         
         console.log('after redux delete:', this.props.reduxState.inbox)
-        //
-        this.props.dispatch({                 //still need to test if this works
-            type: 'SET_RESPONDING',
-            payload: { senderId: senderId }
-        })
+        
+        //if the recieved image is not a response, prepare for responding by dispatching to redux
+        console.log('this.props.reduxState.inbox[0].is_response:', this.props.reduxState.inbox[0].is_response)
+        if (!this.props.reduxState.inbox[0].is_response) {
+            this.props.dispatch({                 //still need to test if this works
+                type: 'SET_RESPONDING',
+                payload: { senderId: senderId }
+            })
+        }
+        
         console.log('senderId:', this.props.reduxState.senderId)
 
         this.props.dispatch({    //dispatch is async- if it responds before the page is changed, there will be an error because the background of the page is deleted
@@ -55,6 +60,14 @@ class ViewInbox extends React.Component {
 
     report = () => {
         console.log('in report')
+        fetch(`http://10.100.100.84:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            }  
+        })
     }
 
     favorite = async () => {
@@ -72,7 +85,6 @@ class ViewInbox extends React.Component {
             })
         }).then((response) => {
             console.log('in favorite .then')
-            this.respond();
         })
     }
 
@@ -80,7 +92,7 @@ class ViewInbox extends React.Component {
         console.log('in ViewInbox componentDidMount')
         await this.getToken()
             .then(response => {
-                console.log('in new .then. token:', response)
+                //console.log('in new .then. token:', response)
                 this.setState({accessToken: response});
             }).catch(error => {
                 console.log('in catch,', error)
@@ -93,7 +105,7 @@ class ViewInbox extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
-                    <TouchableWithoutFeedback onPress={() => this.respond()}>
+                    <TouchableWithoutFeedback onPress={() => this.handlePressAnywhere()}>
 
                     <ImageBackground
                     style={{ flex: 1 }}
