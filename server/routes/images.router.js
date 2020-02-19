@@ -22,7 +22,13 @@ router.post("/", jwtCheck, (req, res) => {
             for (user of users) {    //ARRAY_AGG might make this part simpler
                 usersIdArray.push(user.id)
             }
-            const recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)]
+            let recipientId;
+            console.log('req.body.recipientId:', req.body.recipientId)
+            if (req.body.recipientId) {
+                recipientId = req.body.recipientId;
+            } else {
+                recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)];
+            }
             
             console.log('recipientId:', recipientId)
             console.log('usersIdArray:', usersIdArray)

@@ -162,7 +162,7 @@ class CameraPage extends React.Component {
         console.log('in sendGetUrlToDatabase')
         fetch('http://10.100.100.84:5000/images', {
             method: 'POST',
-            body: JSON.stringify({url: URL}),
+            body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -170,6 +170,10 @@ class CameraPage extends React.Component {
             }
         }).then((response) => {
             this.setState({ review: false});
+            //delete recipient id from redux
+            this.props.dispatch({
+                type: 'SET_NOT_RESPONDING'
+            })
         })
     }
 
