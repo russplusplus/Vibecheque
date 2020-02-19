@@ -4,6 +4,20 @@ const jwtCheck = require('../modules/jwtCheck');
 
 const router = express.Router();
 
+router.get('/', jwtCheck, (req, res) => {
+    console.log('in users GET');
+    const queryText = `SELECT "is_banned" FROM "users"
+                       WHERE "id" = $1;`;
+    pool.query(queryText, [req.user.sub])
+        .then((response) => {
+            console.log('users GET came back')
+            res.send(response.rows)
+        })
+        .catch((error) => {
+            console.log('error in users GET:', error)
+        })
+})
+
 router.put('/', jwtCheck, (req, res) => {
     console.log('in users PUT route')
 

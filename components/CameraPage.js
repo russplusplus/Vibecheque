@@ -225,6 +225,27 @@ class CameraPage extends React.Component {
         }
     }
 
+    checkIfBanned = () => {
+        fetch('http://10.100.100.84:5000/users', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            }
+        }).then((response) => {
+            console.log('users GET came back')
+            return response.json()
+        }).then((myJson) => {
+            console.log('is_banned:', myJson)
+            if (myJson[0].is_banned) {
+                this.logout();
+            }
+        }).catch((error) => {
+            console.log('error in checkIfBanned:', error)
+        });
+    }
+
     async componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
@@ -235,6 +256,7 @@ class CameraPage extends React.Component {
             }).catch(error => {
                 console.log('in catch,', error)
             });
+        this.checkIfBanned();
         this.getInbox();
         console.log('retrieving reduxState:', this.props.reduxState.inbox)
         
