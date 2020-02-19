@@ -60,6 +60,14 @@ class ViewInbox extends React.Component {
 
     report = () => {
         console.log('in report')
+        fetch(`http://10.100.100.84:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            }  
+        })
     }
 
     favorite = async () => {

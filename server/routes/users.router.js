@@ -18,16 +18,21 @@ router.put('/', jwtCheck, (req, res) => {
             console.log('error in update favorite query:', error)
         })
 });
-    // let queryText = `SELECT * FROM "pictures";`;
-    // pool.query(queryText)
-    //     .then((result) => {
-    //         console.log(result.rows)
-    //         res.send(result.rows);
-    //     })
-    //     .catch((error) => {
-    //         console.log(`Error on query ${error}`);
-    //         res.sendStatus(500);
-    //     });
+    
+router.put('/:id', jwtCheck, (req, res) => {
+    console.log('in users report PUT route')
+
+    const queryText = `UPDATE "users"
+                       SET "is_banned" = $1
+                       WHERE "id" = $2;`;
+    pool.query(queryText, [true, req.params.id])
+        .then((response) => {
+            console.log('UPDATE favorite_image_url successful')
+        })
+        .catch((error) => {
+            console.log('error in update favorite query:', error)
+        })
+});
 
 
 module.exports = router;
