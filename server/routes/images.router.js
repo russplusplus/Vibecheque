@@ -23,18 +23,20 @@ router.post("/", jwtCheck, (req, res) => {
                 usersIdArray.push(user.id)
             }
             let recipientId;
+            let isResponse = false;
             console.log('req.body.recipientId:', req.body.recipientId)
             if (req.body.recipientId) {
                 recipientId = req.body.recipientId;
+                isResponse = true;
             } else {
                 recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)];
             }
             
             console.log('recipientId:', recipientId)
             console.log('usersIdArray:', usersIdArray)
-            const insertImageQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id")
-                                          VALUES ($1, $2, $3);`;
-            pool.query(insertImageQueryText, [req.body.url, req.user.sub, recipientId])
+            const insertImageQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id", "is_response")
+                                          VALUES ($1, $2, $3, $4);`;
+            pool.query(insertImageQueryText, [req.body.url, req.user.sub, recipientId, isResponse])
                 .then((response2) => {
                     console.log('Query successful!', response2)
                 })
