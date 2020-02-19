@@ -12,9 +12,11 @@ import Remove from './components/Remove';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import inboxReducer from './store/reducers/inbox';
+import respondingReducer from './store/reducers/responding';
 
 const rootReducer = combineReducers({
-  inbox: inboxReducer
+  inbox: inboxReducer,
+  responding: respondingReducer
 })
 
 const store = createStore(rootReducer);

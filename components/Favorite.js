@@ -25,7 +25,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://10.100.100.137:5000/favorite', {
+        fetch('http://10.100.100.84:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -59,7 +59,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://10.100.100.137:5000/favorite', {
+        fetch('http://10.100.100.84:5000/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',

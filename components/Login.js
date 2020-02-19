@@ -27,7 +27,7 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        fetch('http://10.100.100.137:5000/login', {
+        fetch('http://10.100.100.84:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -52,7 +52,7 @@ const Login = props => {
 
     register = () => {
         console.log('in register function');
-        fetch('http://10.100.100.137:5000/register', {
+        fetch('http://10.100.100.84:5000/register', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -72,12 +72,12 @@ const Login = props => {
                         source={require('../assets/Vibecheque_6.png')}>
                 
                 <TextInput
-                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 26, borderWidth: 2, borderColor: 'black', padding: 4, width: '50%'}}
+                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 26, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setUsernameInput(text)}
                     placeholder="username"    
                 />
                 <TextInput
-                    style={{ marginBottom: '2%', fontSize: 26, borderWidth: 2, borderColor: 'black', padding: 4, width: '50%'}}
+                    style={{ marginBottom: '2%', fontSize: 26, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setPasswordInput(text)}
                     placeholder="password"
                 />
@@ -87,6 +87,7 @@ const Login = props => {
                         width: '30%', 
                         borderWidth: 2,
                         borderColor: 'black',
+                        borderRadius: 10,
                         backgroundColor: 'transparent',
                         alignItems: 'center',
                         marginBottom: 4}}>
@@ -102,6 +103,7 @@ const Login = props => {
                         width: '30%', 
                         borderWidth: 2,
                         borderColor: 'black',
+                        borderRadius: 10,
                         backgroundColor: 'transparent',
                         alignItems: 'center'}}>
                     <Text

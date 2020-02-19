@@ -1,6 +1,6 @@
-const respondingReducer = (state = {}, action) => {
+const respondingReducer = (state = null, action) => {
     if (action.type === 'SET_RESPONDING') {
-        return action.payload;
+        return action.payload.senderId;
     } else if (action.type === 'SET_NOT_RESPONDING') {
         return null;
     } else {
@@ -8,4 +8,4 @@ const respondingReducer = (state = {}, action) => {
     }
 }
 
-export default inboxReducer;
+export default respondingReducer;

@@ -9,7 +9,6 @@ import { render } from 'react-dom';
 
 import { connect } from 'react-redux';
 
-
 class CameraPage extends React.Component {
 
     state = {
@@ -97,11 +96,10 @@ class CameraPage extends React.Component {
         this.setState({ S3Key: name })
     }
 
-
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://10.100.100.137:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://10.100.100.84:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -144,7 +142,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://10.100.100.137:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://10.100.100.84:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -162,7 +160,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://10.100.100.84:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL}),
             headers: {
@@ -191,7 +189,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://10.100.100.84:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -242,7 +240,17 @@ class CameraPage extends React.Component {
     };
 
     render() {
+        console.log('this.props.reduxState.responding:', this.props.reduxState.responding);
+
         const { hasPermission } = this.state;
+        let ifResponding = '';
+        if (this.props.reduxState.responding) {
+            console.log('this.props.reduxState.responding:', this.props.reduxState.responding)
+            ifResponding = 'Responding';
+            console.log('in render if, ifResponding:', ifResponding)
+        }
+
+        console.log('outside of render if, ifResponding:', ifResponding)
 
         if (hasPermission === null) {
             return <View />;
@@ -306,6 +314,7 @@ class CameraPage extends React.Component {
                                         }}
                                     />
                                 </TouchableOpacity>
+                                <Text style={{ fontSize: 36, color: 'white' }}>{ifResponding}</Text>  
                                 <TouchableOpacity
                                     style={{
                                  //   alignSelf: 'flex-end',

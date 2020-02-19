@@ -25,7 +25,7 @@ class ViewInbox extends React.Component {
         let imageId = this.props.reduxState.inbox[0].id;
         let senderId = this.props.reduxState.inbox[0].from_users_id;
         // delete viewed image from database
-        fetch('http://10.100.100.137:5000/images', {
+        fetch('http://10.100.100.84:5000/images', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -38,17 +38,19 @@ class ViewInbox extends React.Component {
         })
         console.log('before redux delete:', this.props.reduxState.inbox)
         // delete viewed image from redux
-        this.props.dispatch({
-            type: 'DELETE_IMAGE'
-        })
+        
         console.log('after redux delete:', this.props.reduxState.inbox)
-
+        //
         this.props.dispatch({                 //still need to test if this works
             type: 'SET_RESPONDING',
             payload: { senderId: senderId }
         })
-        this.props.history.push('/camera')
+        console.log('senderId:', this.props.reduxState.senderId)
 
+        this.props.dispatch({    //dispatch is async- if it responds before the page is changed, there will be an error because the background of the page is deleted
+            type: 'DELETE_IMAGE'
+        })
+        this.props.history.push('/camera')
     }
 
     report = () => {
@@ -58,7 +60,7 @@ class ViewInbox extends React.Component {
     favorite = async () => {
         console.log('in favorite')
         // send image url to database and replace existing
-        await fetch('http://10.100.100.137:5000/users', {
+        await fetch('http://10.100.100.84:5000/users', {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
