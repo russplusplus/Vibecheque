@@ -110,7 +110,7 @@ class ViewInbox extends React.Component {
                     <ImageBackground
                     style={{ flex: 1 }}
                     source={{ uri: this.props.reduxState.inbox[0].image_url }}>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
+                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:10}}>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-end',

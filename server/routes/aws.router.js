@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwtCheck = require('../modules/jwtCheck');
 
 const cors = require('cors');
 
@@ -25,7 +26,7 @@ const {
 
 
 
-router.get('/generate-get-url', (req, res) => {
+router.get('/generate-get-url', jwtCheck, (req, res) => {
     console.log('in generate-get-url')
     const { Key } = req.query;
     generateGetUrl(Key)
@@ -38,7 +39,7 @@ router.get('/generate-get-url', (req, res) => {
         });
 });
 
-router.get('/generate-put-url', (req, res) => {
+router.get('/generate-put-url', jwtCheck, (req, res) => {
     console.log('in generate-put-url')
     const { Key , ContentType } = req.query;
     generatePutUrl(Key, ContentType)

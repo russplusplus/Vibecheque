@@ -16,8 +16,6 @@ router.post("/", (req, res) => {
       return;
     }
     
-    
-
     const queryText = `SELECT * FROM USERS;`;
     pool.query(queryText)
         .then((response) => {

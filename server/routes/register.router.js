@@ -33,8 +33,8 @@ router.post("/", (req, res) => {
         // })    
 
     let POSTQueryText = `INSERT INTO "users" ("username", "password")
-                        VALUES ('${req.body.username}', '${req.body.password}');`;
-    pool.query(POSTQueryText)
+                        VALUES ($1, $2);`;
+    pool.query(POSTQueryText, [req.body.username, req.body.password])
         .then((response) => {
             console.log('register query response:', response)
         }).catch((error) => {

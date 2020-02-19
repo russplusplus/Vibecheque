@@ -103,7 +103,8 @@ class CameraPage extends React.Component {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',  //this limits fetch to being able to read JSON response objects
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
             }
         }).then((response) => {
             return response.json()
@@ -146,7 +147,8 @@ class CameraPage extends React.Component {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',  //this limits fetch to being able to read JSON response objects
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
             }
         }).then((response) => {
             return response.json()
@@ -289,7 +291,7 @@ class CameraPage extends React.Component {
                     <ImageBackground
                     style={{ flex: 1 }}
                     source={{ uri: this.state.image.uri }}>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
+                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:10}}>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-end',
@@ -328,8 +330,8 @@ class CameraPage extends React.Component {
                     </ImageBackground>
                     ) : (
                     <Camera style={{ flex:1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
-                        <View style={{flex:1,flexDirection:"column",justifyContent:"space-between",margin:20}}>
-                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
+                        <View style={{flex:1,flexDirection:"column",justifyContent:"space-between",margin:10}}>
+                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between", marginTop:10}}>
                                 <TouchableOpacity
                                     onPress={() => this.logout()}>
                                     <Ionicons
@@ -340,7 +342,7 @@ class CameraPage extends React.Component {
                                         }}
                                     />
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 36, color: 'white' }}>{ifResponding}</Text>  
+                                <Text style={{ fontSize: 32, color: 'white' }}>{ifResponding}</Text>  
                                 <TouchableOpacity
                                     style={{
                                  //   alignSelf: 'flex-end',

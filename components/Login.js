@@ -15,16 +15,6 @@ const Login = props => {
         }
     };
 
-    async function getToken() {
-        console.log('in getToken function');
-        try {
-            const token = await AsyncStorage.getItem("access_token")
-            console.log(JSON.stringify(token))
-        } catch (error) {
-            console.log('AsyncStorage retrieval error:', error.message)
-        }
-    };
-
     login = () => {
         console.log('in login function');
         fetch('http://10.100.100.84:5000/login', {
@@ -72,12 +62,12 @@ const Login = props => {
                         source={require('../assets/Vibecheque_6.png')}>
                 
                 <TextInput
-                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 26, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
+                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 24, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setUsernameInput(text)}
                     placeholder="username"    
                 />
                 <TextInput
-                    style={{ marginBottom: '2%', fontSize: 26, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
+                    style={{ marginBottom: '2%', fontSize: 24, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setPasswordInput(text)}
                     placeholder="password"
                 />
@@ -90,7 +80,7 @@ const Login = props => {
                         borderRadius: 10,
                         backgroundColor: 'transparent',
                         alignItems: 'center',
-                        marginBottom: 4}}>
+                        marginBottom: 6}}>
                     <Text
                         style={{
                             fontSize: 26}}>
