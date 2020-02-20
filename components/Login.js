@@ -70,6 +70,7 @@ const Login = props => {
                     style={{ marginBottom: '2%', fontSize: 24, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setPasswordInput(text)}
                     placeholder="password"
+                    secureTextEntry={true}
                 />
                 <TouchableOpacity
                     onPress={login}
@@ -103,7 +104,6 @@ const Login = props => {
                     </Text>
                 </TouchableOpacity>
             </ImageBackground>
-
         </>
     )
 }

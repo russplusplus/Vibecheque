@@ -1,40 +1,22 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
+const encryptLib = require('../modules/encryption');
 
 const router = express.Router();
 
 router.use(bodyParser.json());
 
 router.post("/", (req, res) => {
+    const username = req.body.username;
+    const password = encryptLib.encryptPassword(req.body.password);
+    
     console.log(req.body)
-    console.log('username:', req.body.username, 'password:', req.body.password)
-
-    // const GETQueryText = `SELECT "username" from "users";`;
-    // console.log('in register GET')
-    // pool.query(GETQueryText)
-    //     .then((response) => {
-    //         console.log('register GET successful');
-    //         users = response.rows;
-
-            // const user = users.find((u) => {
-            //     return u.username === req.body.username;
-            // });
-        
-            // if (user) {
-            //     console.log('username taken')
-            //     res.status(401).send("Error. Username already taken.");
-            //     return;
-            // }
-        //     console.log('.then users:', users)
-        // }).catch((error) => {
-        //     console.log('error in register GET:', error);
-        // })    
+    console.log('username:', username, 'password:', password)
 
     let POSTQueryText = `INSERT INTO "users" ("username", "password")
-                        VALUES ($1, $2);`;
-    pool.query(POSTQueryText, [req.body.username, req.body.password])
+                         VALUES ($1, $2);`;
+    pool.query(POSTQueryText, [username, password])
         .then((response) => {
             console.log('register query response:', response)
         }).catch((error) => {

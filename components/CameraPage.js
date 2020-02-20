@@ -63,9 +63,12 @@ class CameraPage extends React.Component {
 
     takePicture = async () => {
         console.log('in takePicture')
+
+        // const qualityArr = [0.001, 0.01, 0.1, 0.5, 1]
+        // let quality = qualityArr[Math.floor(Math.random() * qualityArr.length)]
         if (this.camera) {
             this.camera.takePictureAsync({
-                quality: 0.1,
+                quality: 1,
                 base64: true,
                 exif: false
             }).then(image => {
