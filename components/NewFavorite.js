@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, Platform, Touc
 
 import { connect } from 'react-redux';
 
-class Report extends React.Component {
+class NewFavorite extends React.Component {
 
     state = {
         accessToken: ''
@@ -20,41 +20,26 @@ class Report extends React.Component {
         return '(missing token)';
     }
 
-    report = () => {
-        console.log('in report')
-        fetch(`http://172.16.102.94:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
+    favorite = async () => {
+        console.log('in favorite')
+        // send image url to database and replace existing
+        fetch('http://172.16.102.94:5000/users', {
             method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.accessToken
-            }  
-        })
-
-        //delete photo from database
-        let imageId = this.props.reduxState.inbox[0].id;
-        fetch('http://172.16.102.94:5000/images', {
-            method: 'DELETE',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + this.state.accessToken
             },
             body: JSON.stringify({
-                "imageId": imageId
+                "image_url": this.props.reduxState.inbox[0].image_url
             })
         })
-
-        //delete photo from Redux
-        this.props.dispatch({    //dispatch is async- if it responds before the page is changed, there will be an error because the background of the page is deleted
-            type: 'DELETE_IMAGE'
-        })
-
+        console.log('past fetch')
         this.props.returnToCameraPage();
-    }
+    }    
 
     async componentDidMount() {
-        console.log('in Report componentDidMount')
+        console.log('in NewFavorite componentDidMount')
         await this.getToken()
             .then(response => {
                 //console.log('in new .then. token:', response)
@@ -68,27 +53,27 @@ class Report extends React.Component {
         return (
             <Modal visible={this.props.visible} animationType='slide' transparent={true}>
                 <View style={{flex:1, alignItems: 'center', marginLeft:20, marginRight:20, marginTop:120, marginBottom:120, backgroundColor:'#FFFAAC', borderWidth:2, borderColor:'black'}}>
-                        <Text style={{fontSize:48, textAlign:'center', marginTop:100}}>Bad Vibes?</Text>
-                        <Text style={{fontSize:26, textAlign:'center', marginTop:50}}>The sender will be permanently banned.</Text>
+                        <Text style={{fontSize:48, textAlign:'center', marginTop:100}}>Favorite Vibe?</Text>
+                        <Text style={{fontSize:26, textAlign:'center', marginTop:50, marginLeft:20, marginRight:20}}>The image will be saved and overwrite any currently saved image.</Text>
                         <TouchableOpacity 
-                            onPress={() => this.report()} 
+                            onPress={() => this.favorite()} 
                             style={{ 
                                 width: '75%', 
                                 borderWidth: 2,
                                 borderColor: 'black',
                                 borderRadius: 10,
-                                backgroundColor: '#CC375E',
+                                backgroundColor: '#9EE7FF',
                                 justifyContent: 'center',
                                 marginTop: 50}}>
                             <Text
                                 style={{
                                     fontSize: 26,
                                     textAlign: 'center'}}>
-                                BAD VIBES
+                                Save
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            onPress={() => this.props.cancelReport()} 
+                            onPress={() => this.props.cancelNewFavorite()} 
                             style={{ 
                                 width: '75%', 
                                 borderWidth: 2,
@@ -114,4 +99,4 @@ const mapReduxStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapReduxStateToProps)(Report);
+export default connect(mapReduxStateToProps)(NewFavorite);

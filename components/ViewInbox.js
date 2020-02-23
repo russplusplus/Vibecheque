@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import Report from './Report';
+import NewFavorite from './NewFavorite';
 
 import { connect } from 'react-redux';
 
@@ -9,7 +11,8 @@ class ViewInbox extends React.Component {
 
     state = {
         accessToken: '',
-        reportMode: false
+        reportMode: false,
+        newFavoriteMode: false
     }
 
     getToken = async () => {
@@ -60,17 +63,17 @@ class ViewInbox extends React.Component {
         this.props.history.push('/camera')
     }
 
-    report = () => {
-        console.log('in report')
-        fetch(`http://172.16.102.94:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.accessToken
-            }  
-        })
-    }
+    // report = () => {
+    //     console.log('in report')
+    //     fetch(`http://172.16.102.94:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //             Authorization: 'Bearer ' + this.state.accessToken
+    //         }  
+    //     })
+    // }
 
     favorite = async () => {
         console.log('in favorite')
@@ -92,6 +95,10 @@ class ViewInbox extends React.Component {
 
     cancelReport = () => {
         this.setState({reportMode: false})
+    }
+
+    cancelNewFavorite = () => {
+        this.setState({newFavoriteMode: false})
     }
 
     returnToCameraPage = () => {
@@ -116,6 +123,7 @@ class ViewInbox extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
+                <NewFavorite visible={this.state.newFavoriteMode} cancelNewFavorite={this.cancelNewFavorite} returnToCameraPage={this.returnToCameraPage}></NewFavorite>
                 <Report visible={this.state.reportMode} cancelReport={this.cancelReport} returnToCameraPage={this.returnToCameraPage}></Report>
                     <TouchableWithoutFeedback onPress={() => this.handlePressAnywhere()}>
 
@@ -151,7 +159,7 @@ class ViewInbox extends React.Component {
                                     borderColor: 'black',
                                     borderRadius: 10                        
                                 }}
-                                onPress={() => this.favorite()}>
+                                onPress={() => this.setState({newFavoriteMode: true})}>
                                 <Ionicons
                                     name='md-star'
                                     style={{ color: 'white', fontSize: 40}}
