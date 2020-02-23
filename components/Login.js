@@ -18,7 +18,7 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        fetch('http://172.16.102.94:5000/login', {
+        fetch('http://10.100.100.84:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -43,7 +43,7 @@ const Login = props => {
 
     register = () => {
         console.log('in register function');
-        fetch('http://172.16.102.94:5000/register', {
+        fetch('http://10.100.100.84:5000/register', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

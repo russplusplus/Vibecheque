@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, ImageBackground, TouchableOpacity } from 'react-native';
 import { render } from 'react-dom';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-//const defaultBackground = require('../assets/NoFavorite.png')
+
+import DeleteFavorite from './DeleteFavorite';
 
 import { connect } from 'react-redux';
 
@@ -10,7 +11,8 @@ class Favorite extends React.Component {
 
     state = {
         accessToken: '',
-        favoriteUrl: 'https://thumbs.gfycat.com/ThankfulFoolhardyDorado-size_restricted.gif'
+        favoriteUrl: 'https://thumbs.gfycat.com/ThankfulFoolhardyDorado-size_restricted.gif',
+        deleteFavoriteMode: false
     }
 
     getToken = async () => {
@@ -26,7 +28,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://172.16.102.94:5000/favorite', {
+        fetch('http://10.100.100.84:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -68,7 +70,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://172.16.102.94:5000/favorite', {
+        fetch('http://10.100.100.84:5000/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -78,6 +80,10 @@ class Favorite extends React.Component {
         })
         console.log('after fetch')
         this.loadPic();
+    }
+
+    closeDeleteFavoriteModal = () => {
+        this.setState({deleteFavoriteMode: false})
     }
 
     async componentDidMount() {
@@ -97,6 +103,7 @@ class Favorite extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
+                    <DeleteFavorite visible={this.state.deleteFavoriteMode} closeDeleteFavoriteModal={this.closeDeleteFavoriteModal} loadPic={this.loadPic}></DeleteFavorite>
                     <ImageBackground
                     style={{ flex: 1 }}
                     source={{ uri: this.state.favoriteUrl }}>
@@ -132,7 +139,7 @@ class Favorite extends React.Component {
                                     borderColor: 'black',
                                     borderRadius: 10                      
                                 }}
-                                onPress={() => this.deleteFavorite()}>
+                                onPress={() => this.setState({deleteFavoriteMode: true})}>
                                 <Ionicons
                                     name="ios-trash"
                                     style={{ color: "black", fontSize: 40}}
