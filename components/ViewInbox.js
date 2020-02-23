@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import Report from './Report';
 
 import { connect } from 'react-redux';
 
 class ViewInbox extends React.Component {
 
     state = {
-        accessToken: ''
+        accessToken: '',
+        reportMode: false
     }
 
     getToken = async () => {
@@ -88,8 +90,13 @@ class ViewInbox extends React.Component {
         })
     }
 
+    cancelReport = () => {
+        this.setState({reportMode: false})
+    }
+
     async componentDidMount() {
         console.log('in ViewInbox componentDidMount')
+        console.log(this.state.reportMode)
         await this.getToken()
             .then(response => {
                 //console.log('in new .then. token:', response)
@@ -105,6 +112,7 @@ class ViewInbox extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
+                <Report visible={this.state.reportMode} cancelReport={this.cancelReport}></Report>
                     <TouchableWithoutFeedback onPress={() => this.handlePressAnywhere()}>
 
                     <ImageBackground
@@ -122,7 +130,7 @@ class ViewInbox extends React.Component {
                                     borderColor: 'black',
                                     borderRadius: 10                   
                                 }}
-                                onPress={() => this.report()}>
+                                onPress={() => this.setState({reportMode: true})}>
                                 <FontAwesome
                                     name='thumbs-down'
                                     style={{ color: 'black', fontSize: 40}}
