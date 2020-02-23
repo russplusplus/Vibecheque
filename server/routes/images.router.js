@@ -22,6 +22,7 @@ router.post("/", jwtCheck, (req, res) => {
             for (user of users) {    //ARRAY_AGG might make this part simpler
                 usersIdArray.push(user.id)
             }
+
             let recipientId;
             let isResponse = false;
             console.log('req.body.recipientId:', req.body.recipientId)
@@ -29,7 +30,9 @@ router.post("/", jwtCheck, (req, res) => {
                 recipientId = req.body.recipientId;
                 isResponse = true;
             } else {
-                recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)];
+                do {
+                    recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)];
+                } while (recipientId === req.user.id);
             }
             
             console.log('recipientId:', recipientId)

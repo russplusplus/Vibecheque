@@ -102,7 +102,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://10.100.100.84:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://172.16.102.94:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -146,7 +146,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://10.100.100.84:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://172.16.102.94:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -165,7 +165,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://10.100.100.84:5000/images', {
+        fetch('http://172.16.102.94:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
             headers: {
@@ -198,7 +198,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://10.100.100.84:5000/images', {
+        fetch('http://172.16.102.94:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -231,7 +231,7 @@ class CameraPage extends React.Component {
     }
 
     checkIfBanned = () => {
-        fetch('http://10.100.100.84:5000/users', {
+        fetch('http://172.16.102.94:5000/users', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

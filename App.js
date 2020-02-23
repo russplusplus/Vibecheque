@@ -5,9 +5,7 @@ import { NativeRouter, Route, Link } from "react-router-native";
 import Login from './components/Login';
 import CameraPage from './components/CameraPage';
 import Favorite from './components/Favorite';
-import Report from './components/Report';
 import ViewInbox from './components/ViewInbox';
-import Remove from './components/Remove';
 
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -29,9 +27,7 @@ export default function App() {
           <Route exact path="/" component={Login} />
           <Route path="/camera" component={CameraPage} />
           <Route path="/favorite" component={Favorite} />
-          <Route path="/report" component={Report} />
           <Route path="/viewInbox" component={ViewInbox} />
-          <Route path="/remove" component={Remove} /> 
         </View>
       </NativeRouter>
     </Provider>
