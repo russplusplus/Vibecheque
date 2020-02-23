@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, ImageBackground, TouchableOpacity } from 'react-native';
 import { render } from 'react-dom';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+//const defaultBackground = require('../assets/NoFavorite.png')
 
 import { connect } from 'react-redux';
 
@@ -38,9 +39,17 @@ class Favorite extends React.Component {
         })
         .then((myJson) => {
             console.log('favorite:', myJson)
-            this.setState({
-                favoriteUrl: myJson[0].favorite_image_url
-            })
+            if (myJson[0].favorite_image_url === null) {
+               // console.log('no favorite, defaultBackground')
+                this.setState({
+                    favoriteUrl: 'https://vibecheque.s3.us-east-2.amazonaws.com/NoFavorite.png'
+                })
+            } else {
+                this.setState({
+                    favoriteUrl: myJson[0].favorite_image_url
+                })
+            }
+            
             console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
         })
         .catch((error) => {

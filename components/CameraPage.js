@@ -359,53 +359,71 @@ class CameraPage extends React.Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#FFFAAC',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10                   
-                                    }}
-                                    onPress={() => this.viewInbox()}>
-                                    <Text style={{fontSize:30, color:'black'}}>
-                                        {this.state.newImages}
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: 'transparent',
-                                    }}
-                                    onPress={() => this.takePicture()}>
-                                    <FontAwesome
-                                        name='circle-thin'
-                                        style={{ color: 'white', fontSize: 67}}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#9EE7FF',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10 
-                                    }}
-                                    onPress={() => this.viewFavorite()}>
-                                    <Ionicons
-                                        name="md-star"
-                                        style={{ color: 'white', fontSize: 40}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                            {ifResponding ? (
+                                <View style={{flex:1,flexDirection:"row",justifyContent:"center"}}>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            justifySelf: 'center',
+                                            backgroundColor: 'transparent',
+                                            }}
+                                            onPress={() => this.takePicture()}>
+                                            <FontAwesome
+                                                name='circle-thin'
+                                                style={{ color: 'white', fontSize: 67}}
+                                            />
+                                        </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: '#FFFAAC',
+                                            width: 47,
+                                            height: 47,
+                                            borderWidth: 3,
+                                            borderColor: 'black',
+                                            borderRadius: 10                   
+                                            }}
+                                            onPress={() => this.viewInbox()}>
+                                            <Text style={{fontSize:30, color:'black'}}>
+                                                {this.state.newImages}
+                                            </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: 'transparent',
+                                            }}
+                                            onPress={() => this.takePicture()}>
+                                            <FontAwesome
+                                                name='circle-thin'
+                                                style={{ color: 'white', fontSize: 67}}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: '#9EE7FF',
+                                            width: 47,
+                                            height: 47,
+                                            borderWidth: 3,
+                                            borderColor: 'black',
+                                            borderRadius: 10 
+                                            }}
+                                            onPress={() => this.viewFavorite()}>
+                                            <Ionicons
+                                                name="md-star"
+                                                style={{ color: 'white', fontSize: 40}}
+                                            />
+                                        </TouchableOpacity>
+                                </View>
+                            )}
                         </View>
                             
                     </Camera>
