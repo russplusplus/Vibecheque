@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, Platform, TouchableOpacity, ImageBackground, Modal } from 'react-native';
 
+import { connect } from 'react-redux';
 
 class Report extends React.Component {
 
@@ -29,6 +30,27 @@ class Report extends React.Component {
                 Authorization: 'Bearer ' + this.state.accessToken
             }  
         })
+
+        //delete photo from database
+        let imageId = this.props.reduxState.inbox[0].id;
+        fetch('http://172.16.102.94:5000/images', {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.accessToken
+            },
+            body: JSON.stringify({
+                "imageId": imageId
+            })
+        })
+
+        //delete photo from Redux
+        this.props.dispatch({    //dispatch is async- if it responds before the page is changed, there will be an error because the background of the page is deleted
+            type: 'DELETE_IMAGE'
+        })
+
+        this.props.returnToCameraPage();
     }
 
     async componentDidMount() {
@@ -88,4 +110,8 @@ class Report extends React.Component {
     }
 }
 
-export default Report
+const mapReduxStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapReduxStateToProps)(Report);

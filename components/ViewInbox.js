@@ -94,6 +94,10 @@ class ViewInbox extends React.Component {
         this.setState({reportMode: false})
     }
 
+    returnToCameraPage = () => {
+        this.props.history.push('/camera')
+    }
+
     async componentDidMount() {
         console.log('in ViewInbox componentDidMount')
         console.log(this.state.reportMode)
@@ -112,7 +116,7 @@ class ViewInbox extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
-                <Report visible={this.state.reportMode} cancelReport={this.cancelReport}></Report>
+                <Report visible={this.state.reportMode} cancelReport={this.cancelReport} returnToCameraPage={this.returnToCameraPage}></Report>
                     <TouchableWithoutFeedback onPress={() => this.handlePressAnywhere()}>
 
                     <ImageBackground
