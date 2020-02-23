@@ -12,7 +12,8 @@ class ViewInbox extends React.Component {
     state = {
         accessToken: '',
         reportMode: false,
-        newFavoriteMode: false
+        newFavoriteMode: false,
+        starColor: 'white'
     }
 
     getToken = async () => {
@@ -97,12 +98,16 @@ class ViewInbox extends React.Component {
         this.setState({reportMode: false})
     }
 
-    cancelNewFavorite = () => {
+    closeNewFavoriteModal = () => {
         this.setState({newFavoriteMode: false})
     }
 
     returnToCameraPage = () => {
         this.props.history.push('/camera')
+    }
+
+    indicateFavorite = () => {
+        this.setState({starColor: '#FFFAAC'})
     }
 
     async componentDidMount() {
@@ -123,7 +128,7 @@ class ViewInbox extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
-                <NewFavorite visible={this.state.newFavoriteMode} cancelNewFavorite={this.cancelNewFavorite} returnToCameraPage={this.returnToCameraPage}></NewFavorite>
+                <NewFavorite visible={this.state.newFavoriteMode} closeNewFavoriteModal={this.closeNewFavoriteModal} indicateFavorite={this.indicateFavorite}></NewFavorite>
                 <Report visible={this.state.reportMode} cancelReport={this.cancelReport} returnToCameraPage={this.returnToCameraPage}></Report>
                     <TouchableWithoutFeedback onPress={() => this.handlePressAnywhere()}>
 
@@ -162,7 +167,7 @@ class ViewInbox extends React.Component {
                                 onPress={() => this.setState({newFavoriteMode: true})}>
                                 <Ionicons
                                     name='md-star'
-                                    style={{ color: 'white', fontSize: 40}}
+                                    style={{ color: this.state.starColor, fontSize: 40}}
                                 />
                             </TouchableOpacity>
                         </View>

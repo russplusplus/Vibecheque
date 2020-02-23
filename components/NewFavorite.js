@@ -22,6 +22,9 @@ class NewFavorite extends React.Component {
 
     favorite = async () => {
         console.log('in favorite')
+        // turn star yellow
+        this.props.indicateFavorite()
+
         // send image url to database and replace existing
         fetch('http://172.16.102.94:5000/users', {
             method: 'PUT',
@@ -35,7 +38,7 @@ class NewFavorite extends React.Component {
             })
         })
         console.log('past fetch')
-        this.props.returnToCameraPage();
+        this.props.closeNewFavoriteModal();
     }    
 
     async componentDidMount() {
@@ -73,7 +76,7 @@ class NewFavorite extends React.Component {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            onPress={() => this.props.cancelNewFavorite()} 
+                            onPress={() => this.props.closeNewFavoriteModal()} 
                             style={{ 
                                 width: '75%', 
                                 borderWidth: 2,
