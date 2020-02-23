@@ -24,7 +24,7 @@ router.get("/", jwtCheck, (req, res) => {
 router.delete("/", jwtCheck, (req, res) => {
     console.log('in delete route')
     let queryText = `UPDATE "users"
-                     SET "favorite_image_url" = 'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
+                     SET "favorite_image_url" = NULL
                      WHERE "id" = $1;`;
     pool.query(queryText, [req.user.sub])
         .then((response) => {

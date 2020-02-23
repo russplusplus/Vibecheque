@@ -10,7 +10,7 @@ class Favorite extends React.Component {
 
     state = {
         accessToken: '',
-        favoriteUrl: 'https://miro.medium.com/max/1080/0*DqHGYPBA-ANwsma2.gif'
+        favoriteUrl: 'https://thumbs.gfycat.com/ThankfulFoolhardyDorado-size_restricted.gif'
     }
 
     getToken = async () => {
