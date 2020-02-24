@@ -67,7 +67,7 @@ class Report extends React.Component {
     render() {
         return (
             <Modal visible={this.props.visible} animationType='slide' transparent={true}>
-                <View style={{flex:1, alignItems: 'center', marginLeft:20, marginRight:20, marginTop:120, marginBottom:120, backgroundColor:'#FFFAAC', borderWidth:2, borderColor:'black'}}>
+                <View style={{flex:1, alignItems: 'center', marginLeft:20, marginRight:20, marginTop:120, marginBottom:120, backgroundColor:'#FFFAAC', borderWidth:2, borderColor:'black', borderRadius:10}}>
                         <Text style={{fontSize:48, textAlign:'center', marginTop:100}}>Bad Vibes?</Text>
                         <Text style={{fontSize:26, textAlign:'center', marginTop:50}}>The sender will be permanently banned.</Text>
                         <TouchableOpacity 

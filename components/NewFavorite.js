@@ -55,7 +55,7 @@ class NewFavorite extends React.Component {
     render() {
         return (
             <Modal visible={this.props.visible} animationType='slide' transparent={true}>
-                <View style={{flex:1, alignItems: 'center', marginLeft:20, marginRight:20, marginTop:120, marginBottom:120, backgroundColor:'#FFFAAC', borderWidth:2, borderColor:'black'}}>
+                <View style={{flex:1, alignItems: 'center', marginLeft:20, marginRight:20, marginTop:120, marginBottom:120, backgroundColor:'#FFFAAC', borderWidth:2, borderColor:'black', borderRadius:10}}>
                         <Text style={{fontSize:48, textAlign:'center', marginTop:100}}>Favorite Vibe?</Text>
                         <Text style={{fontSize:26, textAlign:'center', marginTop:50, marginLeft:20, marginRight:20}}>The image will be saved and will overwrite any currently saved image.</Text>
                         <TouchableOpacity 
