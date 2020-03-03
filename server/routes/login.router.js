@@ -25,34 +25,28 @@ router.post("/", (req, res) => {
             const password = encryptLib.encryptPassword(req.body.password);
             console.log('input username:', username);
             console.log('input password:', password);
-            // const user = users.find((u) => {
-            //     return u.username === username && u.password === password;
-            // });
-
-            // finds user in database based on username
+            
             const user = users.find((u) => {
                 return u.username === username
             });
-            
-            console.log(req.body.password)
-            console.log(user.password)
+            if (!user) {
+                console.log('user not found')
+                res.status(401).send('{"errorMessage":"User not found."}');
+                return;
+            }
             
             let match = encryptLib.comparePassword(req.body.password, user.password)
             console.log('If passwords match, this should be true:', match)
             console.log('user:', user)
+            
             if (!match) {
                 console.log('incorrect password')
-                res.status(401).send('Password is incorrect.')
-                return;
-            }
-            if (!user) {
-                console.log('user not found')
-                res.status(401).send('{"errorMessage":"Username/password not found."}');
+                res.status(401).send('{"errorMessage":"Password is incorrect."}');
                 return;
             }
             if (user.is_banned) {
                 console.log('banned user tried to login')
-                res.status(403).send('{"errorMessage":"You have been banned for spreading bad vibes."}')
+                res.status(403).send('{"errorMessage":"You have been banned for spreading bad vibes."}');
                 return;
             }
             const token = jwt.sign({
