@@ -47,12 +47,12 @@ router.post("/", (req, res) => {
             }
             if (!user) {
                 console.log('user not found')
-                res.status(401).send('Error. Username/password not found.');
+                res.status(401).send('{"errorMessage":"Username/password not found."}');
                 return;
             }
             if (user.is_banned) {
                 console.log('banned user tried to login')
-                res.status(403).send('User is banned.')
+                res.status(403).send('{"errorMessage":"You have been banned for spreading bad vibes."}')
                 return;
             }
             const token = jwt.sign({

@@ -32,16 +32,17 @@ router.post("/", jwtCheck, (req, res) => {
             } else {
                 do {
                     recipientId = usersIdArray[Math.floor(Math.random() * usersIdArray.length)];
-                } while (recipientId === req.user.id);
+                    console.log('recipientId:', recipientId);
+                    console.log('req.user.sub:', req.user.sub);
+                } while (recipientId == req.user.sub);
             }
             
-            console.log('recipientId:', recipientId)
-            console.log('usersIdArray:', usersIdArray)
+            
             const insertImageQueryText = `INSERT INTO "images" ("image_url", "from_users_id", "to_users_id", "is_response")
                                           VALUES ($1, $2, $3, $4);`;
             pool.query(insertImageQueryText, [req.body.url, req.user.sub, recipientId, isResponse])
                 .then((response2) => {
-                    console.log('Query successful!', response2)
+                    console.log('Query successful!')
                 })
                 .catch((error) => {
                     console.log('Query error:', error)

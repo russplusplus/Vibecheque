@@ -102,7 +102,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://172.16.102.94:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`http://192.168.1.52:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -146,7 +146,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://172.16.102.94:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`http://192.168.1.52:5000/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -165,7 +165,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://172.16.102.94:5000/images', {
+        fetch('http://192.168.1.52:5000/images', {
             method: 'POST',
             body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
             headers: {
@@ -185,7 +185,8 @@ class CameraPage extends React.Component {
     viewInbox = () => {
         console.log('in viewInbox');
         if (this.state.newImages == 0) {
-            //modal: no new images
+            this.checkIfBanned();
+            this.getInbox();
         } else {
             this.props.history.push('/viewInbox');
         }
@@ -198,7 +199,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://172.16.102.94:5000/images', {
+        fetch('http://192.168.1.52:5000/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -231,7 +232,7 @@ class CameraPage extends React.Component {
     }
 
     checkIfBanned = () => {
-        fetch('http://172.16.102.94:5000/users', {
+        fetch('http://192.168.1.52:5000/users', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -359,53 +360,71 @@ class CameraPage extends React.Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#FFFAAC',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10                   
-                                    }}
-                                    onPress={() => this.viewInbox()}>
-                                    <Text style={{fontSize:30, color:'black'}}>
-                                        {this.state.newImages}
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: 'transparent',
-                                    }}
-                                    onPress={() => this.takePicture()}>
-                                    <FontAwesome
-                                        name='circle-thin'
-                                        style={{ color: 'white', fontSize: 67}}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#9EE7FF',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10 
-                                    }}
-                                    onPress={() => this.viewFavorite()}>
-                                    <Ionicons
-                                        name="md-star"
-                                        style={{ color: 'white', fontSize: 40}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                            {ifResponding ? (
+                                <View style={{flex:1,flexDirection:"row",justifyContent:"center"}}>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            justifySelf: 'center',
+                                            backgroundColor: 'transparent',
+                                            }}
+                                            onPress={() => this.takePicture()}>
+                                            <FontAwesome
+                                                name='circle-thin'
+                                                style={{ color: 'white', fontSize: 67}}
+                                            />
+                                        </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <View style={{flex:1,flexDirection:"row",justifyContent:"space-between"}}>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: '#FFFAAC',
+                                            width: 47,
+                                            height: 47,
+                                            borderWidth: 3,
+                                            borderColor: 'black',
+                                            borderRadius: 10                   
+                                            }}
+                                            onPress={() => this.viewInbox()}>
+                                            <Text style={{fontSize:30, color:'black'}}>
+                                                {this.state.newImages}
+                                            </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: 'transparent',
+                                            }}
+                                            onPress={() => this.takePicture()}>
+                                            <FontAwesome
+                                                name='circle-thin'
+                                                style={{ color: 'white', fontSize: 67}}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{
+                                            alignSelf: 'flex-end',
+                                            alignItems: 'center',
+                                            backgroundColor: '#9EE7FF',
+                                            width: 47,
+                                            height: 47,
+                                            borderWidth: 3,
+                                            borderColor: 'black',
+                                            borderRadius: 10 
+                                            }}
+                                            onPress={() => this.viewFavorite()}>
+                                            <Ionicons
+                                                name="md-star"
+                                                style={{ color: 'white', fontSize: 40}}
+                                            />
+                                        </TouchableOpacity>
+                                </View>
+                            )}
                         </View>
                             
                     </Camera>

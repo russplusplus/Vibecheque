@@ -3,13 +3,16 @@ import { View, Text, TextInput, StyleSheet, Button, AsyncStorage, ImageBackgroun
 import { render } from 'react-dom';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import DeleteFavorite from './DeleteFavorite';
+
 import { connect } from 'react-redux';
 
 class Favorite extends React.Component {
 
     state = {
         accessToken: '',
-        favoriteUrl: 'https://miro.medium.com/max/1080/0*DqHGYPBA-ANwsma2.gif'
+        favoriteUrl: 'https://thumbs.gfycat.com/ThankfulFoolhardyDorado-size_restricted.gif',
+        deleteFavoriteMode: false
     }
 
     getToken = async () => {
@@ -25,7 +28,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://172.16.102.94:5000/favorite', {
+        fetch('http://192.168.1.52:5000/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -38,9 +41,17 @@ class Favorite extends React.Component {
         })
         .then((myJson) => {
             console.log('favorite:', myJson)
-            this.setState({
-                favoriteUrl: myJson[0].favorite_image_url
-            })
+            if (myJson[0].favorite_image_url === null) {
+               // console.log('no favorite, defaultBackground')
+                this.setState({
+                    favoriteUrl: 'https://vibecheque.s3.us-east-2.amazonaws.com/NoFavorite.png'
+                })
+            } else {
+                this.setState({
+                    favoriteUrl: myJson[0].favorite_image_url
+                })
+            }
+            
             console.log('in second .then, this.state.favoriteUrl:', this.state.favoriteUrl)
         })
         .catch((error) => {
@@ -59,7 +70,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://172.16.102.94:5000/favorite', {
+        fetch('http://192.168.1.52:5000/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -69,6 +80,10 @@ class Favorite extends React.Component {
         })
         console.log('after fetch')
         this.loadPic();
+    }
+
+    closeDeleteFavoriteModal = () => {
+        this.setState({deleteFavoriteMode: false})
     }
 
     async componentDidMount() {
@@ -88,6 +103,7 @@ class Favorite extends React.Component {
         return (
             <>
                 <View style={{ flex: 1, margin: 0 }}>
+                    <DeleteFavorite visible={this.state.deleteFavoriteMode} closeDeleteFavoriteModal={this.closeDeleteFavoriteModal} loadPic={this.loadPic}></DeleteFavorite>
                     <ImageBackground
                     style={{ flex: 1 }}
                     source={{ uri: this.state.favoriteUrl }}>
@@ -123,7 +139,7 @@ class Favorite extends React.Component {
                                     borderColor: 'black',
                                     borderRadius: 10                      
                                 }}
-                                onPress={() => this.deleteFavorite()}>
+                                onPress={() => this.setState({deleteFavoriteMode: true})}>
                                 <Ionicons
                                     name="ios-trash"
                                     style={{ color: "black", fontSize: 40}}
