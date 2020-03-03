@@ -5,7 +5,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "testserver": "jest server/test/*.test.js --forceExit"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
     "aws-sdk": "^2.615.0",
@@ -32,8 +36,10 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "jest-expo": "^36.0.1",
+    "supertest": "^4.0.2"
   },
   "private": true
 }

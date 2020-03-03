@@ -31,7 +31,7 @@ class ViewInbox extends React.Component {
         let imageId = this.props.reduxState.inbox[0].id;
         let senderId = this.props.reduxState.inbox[0].from_users_id;
         // delete viewed image from database
-        fetch('http://10.100.100.84:5000/images', {
+        fetch('http://192.168.1.52:5000/images', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
@@ -79,7 +79,7 @@ class ViewInbox extends React.Component {
     favorite = async () => {
         console.log('in favorite')
         // send image url to database and replace existing
-        await fetch('http://10.100.100.84:5000/users', {
+        await fetch('http://192.168.1.52:5000/users', {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',

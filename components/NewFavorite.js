@@ -26,7 +26,7 @@ class NewFavorite extends React.Component {
         this.props.indicateFavorite()
 
         // send image url to database and replace existing
-        fetch('http://10.100.100.84:5000/users', {
+        fetch('http://192.168.1.52:5000/users', {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',

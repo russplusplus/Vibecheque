@@ -6,6 +6,7 @@ const Login = props => {
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [registerMode, setRegisterMode] = useState(false);
+    
 
     async function deviceStorage(item, selectedValue) {
         console.log('in deviceStorage function');
@@ -18,7 +19,7 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        fetch('http://10.100.100.84:5000/login', {
+        fetch('http://192.168.1.52:5000/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -33,9 +34,14 @@ const Login = props => {
                 return response.json()
             })
             .then((myJson) => {
-                console.log('token:', myJson)
-                deviceStorage("access_token", myJson.access_token)
-                props.history.push('/camera');
+                if (myJson.errorMessage) {
+                    console.log('error:', myJson.errorMessage)
+                } else {
+                    console.log('token:', myJson)
+                    deviceStorage("access_token", myJson.access_token)
+                    props.history.push('/camera');
+                }
+                
             }).catch((error) => {
                 console.log('in catch, error:', error)
             });
@@ -43,7 +49,7 @@ const Login = props => {
 
     register = () => {
         console.log('in register function');
-        fetch('http://10.100.100.84:5000/register', {
+        fetch('http://192.168.1.52:5000/register', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
