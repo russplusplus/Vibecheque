@@ -13,7 +13,8 @@ class ViewInbox extends React.Component {
         accessToken: '',
         reportMode: false,
         newFavoriteMode: false,
-        starColor: 'white'
+        starColor: 'white',
+        ifResponse: ''
     }
 
     getToken = async () => {
@@ -122,6 +123,9 @@ class ViewInbox extends React.Component {
             });
         console.log('state access token:', this.state.accessToken)
         console.log('reduxState.inbox:', this.props.reduxState.inbox)
+        if (this.props.reduxState.inbox[0].is_response) {
+            this.setState({ifResponse: 'Response'})
+        }
     }
     
     render() {
@@ -135,41 +139,44 @@ class ViewInbox extends React.Component {
                     <ImageBackground
                     style={{ flex: 1 }}
                     source={{ uri: this.props.reduxState.inbox[0].image_url }}>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:10}}>
-                            <TouchableOpacity
-                                style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#CC375E',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10                   
-                                }}
-                                onPress={() => this.setState({reportMode: true})}>
-                                <FontAwesome
-                                    name='thumbs-down'
-                                    style={{ color: 'black', fontSize: 40}}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: '#9EE7FF',
-                                    width: 47,
-                                    height: 47,
-                                    borderWidth: 3,
-                                    borderColor: 'black',
-                                    borderRadius: 10                        
-                                }}
-                                onPress={() => this.setState({newFavoriteMode: true})}>
-                                <Ionicons
-                                    name='md-star'
-                                    style={{ color: this.state.starColor, fontSize: 40}}
-                                />
-                            </TouchableOpacity>
+                        <View style={{flex:1, flexDirection:"column",justifyContent:"space-between",margin:10}}>
+                            <Text style={{fontSize: 32, color: 'white', textAlign: 'center', marginTop: 10}}>{this.state.ifResponse}</Text>
+                            <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+                                <TouchableOpacity
+                                    style={{
+                                        alignSelf: 'flex-end',
+                                        alignItems: 'center',
+                                        backgroundColor: '#CC375E',
+                                        width: 47,
+                                        height: 47,
+                                        borderWidth: 3,
+                                        borderColor: 'black',
+                                        borderRadius: 10                   
+                                    }}
+                                    onPress={() => this.setState({reportMode: true})}>
+                                    <FontAwesome
+                                        name='thumbs-down'
+                                        style={{ color: 'black', fontSize: 40}}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{
+                                        alignSelf: 'flex-end',
+                                        alignItems: 'center',
+                                        backgroundColor: '#9EE7FF',
+                                        width: 47,
+                                        height: 47,
+                                        borderWidth: 3,
+                                        borderColor: 'black',
+                                        borderRadius: 10                        
+                                    }}
+                                    onPress={() => this.setState({newFavoriteMode: true})}>
+                                    <Ionicons
+                                        name='md-star'
+                                        style={{ color: this.state.starColor, fontSize: 40}}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </ImageBackground>
                     </TouchableWithoutFeedback>
