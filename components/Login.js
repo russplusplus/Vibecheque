@@ -6,7 +6,7 @@ const Login = props => {
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [registerMode, setRegisterMode] = useState(false);
-    
+    const [errorMessage, setErrorMessage] = useState('');
 
     async function deviceStorage(item, selectedValue) {
         console.log('in deviceStorage function');
@@ -36,6 +36,7 @@ const Login = props => {
             .then((myJson) => {
                 if (myJson.errorMessage) {
                     console.log('error:', myJson.errorMessage)
+                    setErrorMessage(myJson.errorMessage)
                 } else {
                     console.log('token:', myJson)
                     deviceStorage("access_token", myJson.access_token)
@@ -65,11 +66,15 @@ const Login = props => {
     return (
         <>
             <ImageBackground
-                        style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}
+                        style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
                         source={require('../assets/Vibecheque_6.png')}>
+                <Text 
+                    style={{ color: '#CC375E', fontSize: 24, marginHorizontal: '15%', marginBottom: '35%', textAlign: 'center'}}>
+                    {errorMessage}
+                </Text>
                 
                 <TextInput
-                    style={{ marginTop: '95%', marginBottom: 2, fontSize: 24, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
+                    style={{ marginBottom: 2, fontSize: 24, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', padding: 4, width: '50%'}}
                     onChangeText={(text) => setUsernameInput(text)}
                     placeholder="username"    
                 />
@@ -98,6 +103,7 @@ const Login = props => {
                 <TouchableOpacity
                     onPress={register}
                     style={{ 
+                        marginBottom: '52%',
                         width: '30%', 
                         borderWidth: 2,
                         borderColor: 'black',
