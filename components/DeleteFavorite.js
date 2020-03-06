@@ -22,7 +22,7 @@ class DeleteFavorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://192.168.1.52:5000/favorite', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',

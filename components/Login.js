@@ -6,7 +6,7 @@ const Login = props => {
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [registerMode, setRegisterMode] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     async function deviceStorage(item, selectedValue) {
         console.log('in deviceStorage function');
@@ -19,7 +19,15 @@ const Login = props => {
 
     login = () => {
         console.log('in login function');
-        fetch('http://192.168.1.52:5000/login', {
+        if (!usernameInput && !passwordInput) {
+            setMessage('Please enter a username and a password to proceed.')
+            return
+        }
+        if (!usernameInput || !passwordInput) {
+            setMessage('Please enter a username AND a password to proceed.')
+            return
+        }
+        fetch('https://murmuring-lake-71708.herokuapp.com/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -36,7 +44,7 @@ const Login = props => {
             .then((myJson) => {
                 if (myJson.errorMessage) {
                     console.log('error:', myJson.errorMessage)
-                    setErrorMessage(myJson.errorMessage)
+                    setMessage(myJson.errorMessage)
                 } else {
                     console.log('token:', myJson)
                     deviceStorage("access_token", myJson.access_token)
@@ -50,7 +58,15 @@ const Login = props => {
 
     register = () => {
         console.log('in register function');
-        fetch('http://192.168.1.52:5000/register', {
+        if (!usernameInput) {
+            setMessage("You're gonna need a username.")
+            return
+        }
+        if (!passwordInput) {
+            setMessage("You're gonna need a password too.")
+            return
+        }
+        fetch('https://murmuring-lake-71708.herokuapp.com/register', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -61,6 +77,12 @@ const Login = props => {
                 "password": passwordInput
             })
         })
+        .then((response) => {
+            return response.json()
+        })
+        .then((myJson) => {
+            setMessage(myJson.registerMessage)
+        })
     }
 
     return (
@@ -70,7 +92,7 @@ const Login = props => {
                         source={require('../assets/Vibecheque_6.png')}>
                 <Text 
                     style={{ color: '#CC375E', fontSize: 24, marginHorizontal: '15%', marginBottom: '35%', textAlign: 'center'}}>
-                    {errorMessage}
+                    {message}
                 </Text>
                 
                 <TextInput

@@ -28,7 +28,7 @@ class Favorite extends React.Component {
 
     loadPic = () => {
         console.log('in loadPic')
-        fetch('http://192.168.1.52:5000/favorite', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/favorite', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -70,7 +70,7 @@ class Favorite extends React.Component {
 
     deleteFavorite = () => {
         console.log('in delete function');
-        fetch('http://192.168.1.52:5000/favorite', {
+        fetch('http://https://murmuring-lake-71708.herokuapp.com/favorite', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',

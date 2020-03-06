@@ -22,7 +22,7 @@ class Report extends React.Component {
 
     report = () => {
         console.log('in report')
-        fetch(`http://192.168.1.52:5000/users/${this.props.reduxState.inbox[0].from_users_id}`, {
+        fetch(`https://murmuring-lake-71708.herokuapp.com/users/${this.props.reduxState.inbox[0].from_users_id}`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
@@ -33,7 +33,7 @@ class Report extends React.Component {
 
         //delete photo from database
         let imageId = this.props.reduxState.inbox[0].id;
-        fetch('http://192.168.1.52:5000/images', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/images', {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',

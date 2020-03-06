@@ -102,7 +102,7 @@ class CameraPage extends React.Component {
     getPutUrl = () => {
         const Key = this.state.S3Key;
         const ContentType = 'image/jpeg'; 
-        fetch(`http://192.168.1.52:5000/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+        fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -146,7 +146,7 @@ class CameraPage extends React.Component {
     getGetUrl = () => {
         console.log('in getGETURL. S3Key:', this.state.S3Key);
         const Key = this.state.S3Key;
-        fetch(`http://192.168.1.52:5000/aws/generate-get-url?Key=${Key}`, {
+        fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-get-url?Key=${Key}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -165,7 +165,7 @@ class CameraPage extends React.Component {
 
     sendGetUrlToDatabase = (URL) => {
         console.log('in sendGetUrlToDatabase')
-        fetch('http://192.168.1.52:5000/images', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/images', {
             method: 'POST',
             body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
             headers: {
@@ -199,7 +199,7 @@ class CameraPage extends React.Component {
 
     getInbox = () => {
         console.log('in getInbox')
-        fetch('http://192.168.1.52:5000/images', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/images', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -232,7 +232,7 @@ class CameraPage extends React.Component {
     }
 
     checkIfBanned = () => {
-        fetch('http://192.168.1.52:5000/users', {
+        fetch('https://murmuring-lake-71708.herokuapp.com/users', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
