@@ -7,6 +7,8 @@ import * as Permissions from 'expo-permissions';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { render } from 'react-dom';
 
+import Logout from './Logout';
+
 import { connect } from 'react-redux';
 
 class CameraPage extends React.Component {
@@ -18,7 +20,8 @@ class CameraPage extends React.Component {
         image: {},
         review: false,
         newImages: 0,
-        S3Key: ''
+        S3Key: '',
+        logoutMode: false
     }
 
     toFavorite = () => {
@@ -252,6 +255,10 @@ class CameraPage extends React.Component {
         });
     }
 
+    closeLogoutModal = () => {
+        this.setState({logoutMode: false})
+    }
+
     async componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
@@ -291,6 +298,7 @@ class CameraPage extends React.Component {
         } else {
             return (
                 <View style={{ flex: 1, margin: 0 }}>
+                    <Logout visible={this.state.logoutMode} closeLogoutModal={this.closeLogoutModal} logout={this.logout}></Logout>
                     {this.state.review ? (
                     <ImageBackground
                     style={{ flex: 1 }}
@@ -337,7 +345,7 @@ class CameraPage extends React.Component {
                         <View style={{flex:1,flexDirection:"column",justifyContent:"space-between",margin:10}}>
                             <View style={{flex:1,flexDirection:"row",justifyContent:"space-between", marginTop:10}}>
                                 <TouchableOpacity
-                                    onPress={() => this.logout()}>
+                                    onPress={() => this.setState({logoutMode: true})}>
                                     <Ionicons
                                         name="md-return-left"
                                         style={{ 
