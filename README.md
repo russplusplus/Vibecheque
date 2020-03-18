@@ -9,3 +9,13 @@ The application allows the user to take a photo that will be sent to a randomly-
 ## Technologies Used
 
 The app is built in React Native with Redux and Expo, interacts with an Express server written in Node.js, and stores data in a PostgreSQL database. The images are stored in AWS S3, and the URLs to access them are stored in the PostgreSQL database. Authentication and sessions are handled with Javascript Web Tokens.
+
+## Images
+
+![](images/image1.png)
+![](images/image2.png)
+![](images/image3.png)
+![](images/image4.png)
+![](images/image5.png)
+![](images/image6.png)
+
