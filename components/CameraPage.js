@@ -76,7 +76,8 @@ class CameraPage extends React.Component {
                 exif: false
             }).then(image => {
                 console.log('in takePicture .then')
-                this.setState({ image: image, review: true })
+               // this.setState({ image: image, review: true })
+                this.props.dispatch({type:'SET_CAPTURED_IMAGE', payload:image})
             })
         }
     }
@@ -89,18 +90,21 @@ class CameraPage extends React.Component {
     sendImage = async () => {
         console.log('in sendImage')
         
+        // We don't need to add a payload, because the image object should be in redux by now
+        this.props.dispatch({type:'SEND_IMAGE'})
+
         // Get the time in milliseconds to use for the file names in S3
-        let d = new Date();
-        let fileName = String(d.getTime());
-        console.log('Time name:', fileName);
-        await this.setS3Key(fileName) //await ensures that the state will be set before the following line is run
-        console.log('State key:', this.state.S3Key); 
-        this.getPutUrl();
+        // let d = new Date();
+        // let fileName = String(d.getTime());
+        // console.log('Time name:', fileName);
+        // await this.setS3Key(fileName) //await ensures that the state will be set before the following line is run
+        // console.log('State key:', this.state.S3Key); 
+        // this.getPutUrl();
     }
 
-    setS3Key = (name) => {
-        this.setState({ S3Key: name })
-    }
+    // setS3Key = (name) => {
+    //     this.setState({ S3Key: name })
+    // }
 
     getPutUrl = () => {
         const Key = this.state.S3Key;
@@ -182,6 +186,18 @@ class CameraPage extends React.Component {
             this.props.dispatch({
                 type: 'SET_NOT_RESPONDING'
             })
+        })
+        fetch('https://vibecheque-543ff.firebaseio.com/images.json', {
+            method: 'POST',
+            body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log('in Firebase .then')
+            return response.json()
+        }).then((myJson) => {
+            console.log('in second Firebase .then. myJson:', myJson)
         })
     }
 
@@ -302,7 +318,7 @@ class CameraPage extends React.Component {
                     {this.state.review ? (
                     <ImageBackground
                     style={{ flex: 1 }}
-                    source={{ uri: this.state.image.uri }}>
+                    source={{ uri: this.props.reduxState.capturedImage.uri }}>
                         <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:10}}>
                             <TouchableOpacity
                                 style={{
