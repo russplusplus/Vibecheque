@@ -12,10 +12,9 @@ The app is built in React Native with Redux and Expo, interacts with an Express 
 
 ## Images
 
-![](images/image1.png)
-![](images/image2.png)
-![](images/image3.png)
-![](images/image4.png)
-![](images/image5.png)
-![](images/image6.png)
-
+<image src="images/image1.png" width=200>
+<image src="images/image2.png" width=200>
+<image src="images/image3.png" width=200>
+<image src="images/image4.png" width=200>
+<image src="images/image5.png" width=200>
+<image src="images/image6.png" width=200>
