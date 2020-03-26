@@ -7,27 +7,18 @@ import CameraPage from './components/CameraPage';
 import Favorite from './components/Favorite';
 import ViewInbox from './components/ViewInbox';
 
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
-import inboxReducer from './store/reducers/inbox';
-import respondingReducer from './store/reducers/responding';
-import capturedImageReducer from './store/reducers/capturedImage';
+import rootReducer from './store/reducers';
 
 import sendImageSaga from './store/sagas/sendImageSaga';
 
-const rootReducer = combineReducers({
-  inbox: inboxReducer,
-  responding: respondingReducer,
-  capturedImage: capturedImageReducer
-})
-
 function* rootSaga() {
   yield all([
-    sendImageSaga(),
-
+    sendImageSaga()
   ]);
 }
 

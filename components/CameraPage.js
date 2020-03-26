@@ -28,16 +28,16 @@ class CameraPage extends React.Component {
         this.props.history.push('/favorite');
     }
 
-    getToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem("access_token")
-            console.log('getToken token:', token);
-            return token;
-        } catch (error) {
-            console.log('AsyncStorage retrieval error:', error.message);
-        }
-        return '(missing token)';
-    }
+    // getToken = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem("access_token")
+    //         console.log('getToken token:', token);
+    //         return token;
+    //     } catch (error) {
+    //         console.log('AsyncStorage retrieval error:', error.message);
+    //     }
+    //     return '(missing token)';
+    // }
 
     handleCameraType = () => {
         console.log('in handleCameraType')
@@ -76,7 +76,8 @@ class CameraPage extends React.Component {
                 exif: false
             }).then(image => {
                 console.log('in takePicture .then')
-               // this.setState({ image: image, review: true })
+                this.setState({review: true})
+                console.log('review:', this.state.review)
                 this.props.dispatch({type:'SET_CAPTURED_IMAGE', payload:image})
             })
         }
@@ -89,6 +90,7 @@ class CameraPage extends React.Component {
 
     sendImage = async () => {
         console.log('in sendImage')
+        console.log('this.props.reduxState.jwt:', this.props.reduxState.jwt)
         
         // We don't need to add a payload, because the image object should be in redux by now
         this.props.dispatch({type:'SEND_IMAGE'})
@@ -106,100 +108,100 @@ class CameraPage extends React.Component {
     //     this.setState({ S3Key: name })
     // }
 
-    getPutUrl = () => {
-        const Key = this.state.S3Key;
-        const ContentType = 'image/jpeg'; 
-        fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.accessToken
-            }
-        }).then((response) => {
-            return response.json()
-        }).then((myJson) => {
-            console.log('put url:', myJson.putURL)  //server returns URL as object with putURL attribute
-            this.putImageToS3(myJson.putURL);
-        }).catch((error) => {
-            console.log('error in generate-put-url:', error)
-        })
-    }
+    // getPutUrl = () => {
+    //     const Key = this.state.S3Key;
+    //     const ContentType = 'image/jpeg'; 
+    //     fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-put-url?Key=${Key}&ContentType=${ContentType}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //             Authorization: 'Bearer ' + this.state.accessToken
+    //         }
+    //     }).then((response) => {
+    //         return response.json()
+    //     }).then((myJson) => {
+    //         console.log('put url:', myJson.putURL)  //server returns URL as object with putURL attribute
+    //         this.putImageToS3(myJson.putURL);
+    //     }).catch((error) => {
+    //         console.log('error in generate-put-url:', error)
+    //     })
+    // }
 
-    putImageToS3 = (putURL) => {
-        console.log('in putImageToS3, url:', putURL)
-        fetch(putURL, {
-            method: 'PUT',
-            // headers: {
-            //     Accept: 'application/json',
-            //     'Content-Type': 'text/plain'
-            // },
-            // body: JSON.stringify({
-            //     "image": this.state.image.base64
-            // })
-            body: this.state.image
-        }).then((response) => {
-            console.log('in putImageToS3 first .then')
-            return response.text()
-        }).then((myJson) => {
-            console.log('in putImageToS3 second .then')
-            console.log(myJson);
-            this.getGetUrl();
-        }).catch((error) => {
-            console.log('error in putImageToS3:', error);
-        })
-    }
+    // putImageToS3 = (putURL) => {
+    //     console.log('in putImageToS3, url:', putURL)
+    //     fetch(putURL, {
+    //         method: 'PUT',
+    //         // headers: {
+    //         //     Accept: 'application/json',
+    //         //     'Content-Type': 'text/plain'
+    //         // },
+    //         // body: JSON.stringify({
+    //         //     "image": this.state.image.base64
+    //         // })
+    //         body: this.state.image
+    //     }).then((response) => {
+    //         console.log('in putImageToS3 first .then')
+    //         return response.text()
+    //     }).then((myJson) => {
+    //         console.log('in putImageToS3 second .then')
+    //         console.log(myJson);
+    //         this.getGetUrl();
+    //     }).catch((error) => {
+    //         console.log('error in putImageToS3:', error);
+    //     })
+    // }
 
-    getGetUrl = () => {
-        console.log('in getGETURL. S3Key:', this.state.S3Key);
-        const Key = this.state.S3Key;
-        fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-get-url?Key=${Key}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.accessToken
-            }
-        }).then((response) => {
-            return response.json()
-        }).then((myJson) => {
-            console.log('get url:', myJson.getURL)  //server returns URL as object with putURL attribute
-            this.sendGetUrlToDatabase(myJson.getURL)
-        }).catch((error) => {
-            console.log('error in generate-put-url:', error)
-        })
-    }
+    // getGetUrl = () => {
+    //     console.log('in getGETURL. S3Key:', this.state.S3Key);
+    //     const Key = this.state.S3Key;
+    //     fetch(`https://murmuring-lake-71708.herokuapp.com/aws/generate-get-url?Key=${Key}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //             Authorization: 'Bearer ' + this.state.accessToken
+    //         }
+    //     }).then((response) => {
+    //         return response.json()
+    //     }).then((myJson) => {
+    //         console.log('get url:', myJson.getURL)  //server returns URL as object with putURL attribute
+    //         this.sendGetUrlToDatabase(myJson.getURL)
+    //     }).catch((error) => {
+    //         console.log('error in generate-put-url:', error)
+    //     })
+    // }
 
-    sendGetUrlToDatabase = (URL) => {
-        console.log('in sendGetUrlToDatabase')
-        fetch('https://murmuring-lake-71708.herokuapp.com/images', {
-            method: 'POST',
-            body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.accessToken
-            }
-        }).then((response) => {
-            this.setState({ review: false});
-            //delete recipient id from redux
-            this.props.dispatch({
-                type: 'SET_NOT_RESPONDING'
-            })
-        })
-        fetch('https://vibecheque-543ff.firebaseio.com/images.json', {
-            method: 'POST',
-            body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((response) => {
-            console.log('in Firebase .then')
-            return response.json()
-        }).then((myJson) => {
-            console.log('in second Firebase .then. myJson:', myJson)
-        })
-    }
+    // sendGetUrlToDatabase = (URL) => {
+    //     console.log('in sendGetUrlToDatabase')
+    //     fetch('https://murmuring-lake-71708.herokuapp.com/images', {
+    //         method: 'POST',
+    //         body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //             Authorization: 'Bearer ' + this.state.accessToken
+    //         }
+    //     }).then((response) => {
+    //         this.setState({ review: false});
+    //         //delete recipient id from redux
+    //         this.props.dispatch({
+    //             type: 'SET_NOT_RESPONDING'
+    //         })
+    //     })
+    //     fetch('https://vibecheque-543ff.firebaseio.com/images.json', {
+    //         method: 'POST',
+    //         body: JSON.stringify({url: URL, recipientId: this.props.reduxState.responding}),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     }).then((response) => {
+    //         console.log('in Firebase .then')
+    //         return response.json()
+    //     }).then((myJson) => {
+    //         console.log('in second Firebase .then. myJson:', myJson)
+    //     })
+    // }
 
     viewInbox = () => {
         console.log('in viewInbox');
@@ -275,18 +277,19 @@ class CameraPage extends React.Component {
         this.setState({logoutMode: false})
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.getPermissionAsync();
         // GET request any incoming photos. Randomly generate "to user" column in pictures table and query by this column,
-        await this.getToken()
-            .then(response => {
-                console.log('in new .then. token:', response)
-                this.setState({accessToken: response});
-            }).catch(error => {
-                console.log('in catch,', error)
-            });
-        this.checkIfBanned();
-        this.getInbox();
+        // await this.getToken()
+        //     .then(response => {
+        //         console.log('in new .then. token:', response)
+        //         this.setState({accessToken: response});
+        //     }).catch(error => {
+        //         console.log('in catch,', error)
+        //     });
+        this.props.dispatch({type: 'GET_JWT'})
+        // this.checkIfBanned();
+        // this.getInbox();
         console.log('retrieving reduxState:', this.props.reduxState.inbox)
         
         console.log('in CameraPage componenetDidMount');
