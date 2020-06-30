@@ -21,7 +21,7 @@
     "expo-camera": "^8.0.0",
     "expo-permissions": "^8.0.0",
     "express": "^4.17.1",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mem": ">=4.0.0",
     "pg": "^7.18.1",
